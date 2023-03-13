@@ -17,7 +17,7 @@ Logistic:
 Use High, Low, Close, Volume data as regressors(features) and use Open data as response 
 
 Hyperparameters:
-0. number of layers
+0. number of layers (hidden layer=1)
 1. number of neurons in each layer
 2. batch size
 3. activation function
@@ -26,12 +26,15 @@ Hyperparameters:
 Evaluating measures:
 accuracy and generalization error
 
+QUESTIONS TO ANSWER:
+0. how to decide the number of layers and neurons in each layer -> Reference 3
 
 ----------------------------------------Below are out of the requirement of proposal------------------------------------ 
 Steps:
 0. collect data
 1. preprocessing data: calculate returns and convert it into stationary sequence
-
+2. initialize an neuron network architecture through xxx
+3. prune unnecessary nodes 
 
 
 
@@ -41,3 +44,6 @@ References:
 https://link.springer.com/chapter/10.1007/978-981-16-4807-6_39
 2. Integrating Fundamental and Technical Analysis of Stock Market through Multi-layer Perceptron
 https://ieeexplore.ieee.org/abstract/document/8488440
+3. How to choose the number of hidden layers and nodes in a feedforward neural network?
+https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw
+(->  (i) the number of hidden layers equals one; and (ii) the number of neurons in that layer is the mean of the neurons in the input and output layers.)
