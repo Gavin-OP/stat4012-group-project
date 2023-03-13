@@ -1,5 +1,5 @@
+Overview:
 To synthesize profitable trading strategies, the key issue is to accurately predict the future stock price.
-
 There are mainly three approaches to make the predication:
 1) Cross-sectional regressions (OLS)
    cons: low accuracy due to the violation of OLS assumptions
@@ -17,7 +17,27 @@ Logistic:
 Use High, Low, Close, Volume data as regressors(features) and use Open data as response 
 
 Hyperparameters:
-1. number of layers
+0. number of layers
+1. number of neurons in each layer
 2. batch size
 3. activation function
 4. optimizer
+
+Evaluating measures:
+accuracy and generalization error
+
+
+----------------------------------------Below are out of the requirement of proposal------------------------------------ 
+Steps:
+0. collect data
+1. preprocessing data: calculate returns and convert it into stationary sequence
+
+
+
+
+
+References:
+1. Analysis and Forecasting of Financial Time Series Using CNN and LSTM-Based Deep Learning
+https://link.springer.com/chapter/10.1007/978-981-16-4807-6_39
+2. Integrating Fundamental and Technical Analysis of Stock Market through Multi-layer Perceptron
+https://ieeexplore.ieee.org/abstract/document/8488440
