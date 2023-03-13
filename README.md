@@ -5,49 +5,49 @@
 >  To synthesize profitable trading strategies, accurately predicting future stock prices is crucial. There are mainly three approaches to make such predictions: 
 >
 > - cross-sectional regressions (OLS)
->   - cons: low accuracy due to the violation of OLS assumptions
+>    - cons: low accuracy due to the violation of OLS assumptions
 > - time series models (e.g. ARIMA)
->   - cons: don't work well on volatile data
-> - machine learning models. Among these
->   - machine learning models have shown higher accuracy even for volatile data
+>    - cons: don't work well on volatile data
+> - machine learning models.
+>    - machine learning models have shown higher accuracy even for volatile data
 > - Our goal is to compare the prediction accuracy of two machine learning algorithms, Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM), and find the optimal model to conduct multivariate time series forecasting.
 
 ## Design
 
-### Data
+- Data
 
-We will be using a single stock/ETF's historical pricing data (High, Low, Open, Close, Volume) for one year, at 5-minute intervals.
+  We will be using a single stock/ETF's historical pricing data (High, Low, Open, Close, Volume) for one year, at 5-minute intervals.
 
-### Logistic
+- Logistic
 
-We will use High, Low, Close, and Volume data as regressors (features) and use Open data as the response.
+  We will use High, Low, Close, and Volume data as regressors (features) and use Open data as the response.
 
-### Hyperparameters
+- Hyperparameters
 
-The hyperparameters we will be testing are:
+  The hyperparameters we will be testing are:
 
-1. Number of layers (hidden layer=1)
-2. Number of neurons in each layer
-3. Batch size
-4. Activation function
-5. Optimizer
+  - Number of layers (hidden layer=1)
+  - Number of neurons in each layer
+  - Batch size
+  - Activation function
+  - Optimizer
 
-### Evaluating Measures
+- Evaluating Measures
 
-We will be evaluating the accuracy and generalization error of the models.
+  We will be evaluating the accuracy and generalization error of the models.
 
-### Questions to Answer
-
-1. How to decide the number of layers and neurons in each layer?[^2]
+- Questions to Answer
+  - How to decide the number of layers and neurons in each layer?[^2]
 
 ## Implementation
 
-### Steps
+### Data Collection
 
-1. Collect data
-2. Preprocess data by calculating returns and converting it into a stationary sequence
-3. Initialize a neural network architecture through xxx
-4. Prune unnecessary nodes
+Stock price and relative information will be download from Bloomberg terminal or [Yahoo Finance](https://finance.yahoo.com/). We will collect a single stock or ETF's historical pricing data (High, Low, Open, Close) at 5-minute intervals, in A-Share market for past one year. 
+
+1. Preprocess data by calculating returns and converting it into a stationary sequence
+2. Initialize a neural network architecture through xxx
+3. Prune unnecessary nodes
 
 ## References
 
