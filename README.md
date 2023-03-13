@@ -6,27 +6,7 @@
    
    Since machine learning models have shown higher accuracy even for volatile data, we hope to find an effective stock price forecasting model by comparing the prediction accuracy of two deep learning algorithms: Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM). We will also compare the performance of our selected model with the Random Forest algorithm to test its capability.
 
-## Design
-
-- Hyperparameters
-
-  The hyperparameters we will be testing are:
-
-  - Number of layers
-  - Number of neurons in each layer
-  - Batch size
-  - Activation function
-  - Optimizer
-
-- Evaluating Measures
-
-  We will be evaluating models by comparing their accuracy and generalization error 
-  We will also conduct hypothesis tests such as the Diebold and Mariano (1995) and Giacomini and White (2006) tests to examine the relative predictive ability of different models.
-
-- Questions to Answer
-  - How to decide the number of layers and neurons in each layer?[^2]
-
-## Implementation
+## Project Design
 
 ### Data Collection
 
@@ -40,17 +20,19 @@ Data will be preprocessed by considering the missing data, outliers, stock split
 
 Our neural network model will start from univariate CNN with the return be the feature. Multivariate CNN model will be developed by combining features such as `Volume` after change the data shape. We also want to build a univariate LSTM model based on with previous returns as input to predict the `Open` price for the next few days. 
 
-For CNN model, we will try different hyperparameters# of layer, optimizer, hyperparameters. 
-
-1. Prune unnecessary nodes
+For each model, we will try different hyperparameters to find the model with the best performance, including number of layers, number of neurons in each layer, batch size, activation function, optimizer. Unnecessary nodes will also be pruned to improve the models. 
 
 ### Model Training
 
+Train the models by backpropagation to minimize the loss function. 
+
 ### Model Comparison
 
-Models using algorithms CNN, LSTM and Random Forest will be tested on the testing set respectively. We will conduct hypothesis tests following Diebold and Mariano (1995) and Giacomini and White (2006) to examine the relative predictive ability of different models. Accuracy, precision, recall, F1 score and ROC will be used to measure the performance of each model.
+Models using algorithms CNN, LSTM and Random Forest will be tested on the testing set respectively. We will conduct hypothesis tests following Diebold and Mariano (1995) and Giacomini and White (2006) to examine the relative predictive ability of different models. Accuracy, precision, recall, F1 score, MSE and ROC will be used to measure the performance of each model.
 
+### To do
 
+- How to decide the number of layers and neurons in each layer?[^2]
 
 ## References
 
