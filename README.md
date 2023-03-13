@@ -15,35 +15,30 @@
 
 - Logistic
 
-  We will use High, Low, Close, and Volume data as regressors (features) and use Open data as the response.
+  We will set the length of the moving window to be 5 days, i.e. take the price data of previous 5 days as input and predict the price for the following day
 
-- Hyperparameters
-
-  The hyperparameters we will be testing are:
-
+- Hyperparameters 
+ 
   - Number of layers
   - Number of neurons in each layer
-  - Batch size
   - Activation function
   - Optimizer
 
 - Evaluating Measures
 
-  We will be evaluating models by comparing their accuracy and generalization error 
-  We will also conduct hypothesis tests such as the Diebold and Mariano (1995) and Giacomini and White (2006) tests to examine the relative predictive ability of different models.
+  We will first evaluate models by comparing their accuracy and generalization error 
+  Next, we will conduct hypothesis tests such as the Diebold and Mariano (1995) and Giacomini and White (2006) tests to examine the relative predictive ability of different models.
 
-- Questions to Answer
-  - How to decide the number of layers and neurons in each layer?[^2]
 
 ## Implementation
 
 ### Data Collection
 
-Stock price and relative information will be download from Bloomberg terminal or [Yahoo Finance](https://finance.yahoo.com/). We will collect a single stock or ETF's historical pricing data (High, Low, Open, Close) at 5-minute intervals, in A-Share market for past one year. 
+Stock price and relative information will be download from Bloomberg terminal or [Yahoo Finance](https://finance.yahoo.com/). We will collect Tencent's historical pricing data (High, Low, Open, Close, Volume) at 5-minute intervals, in A-Share market for past one year. 
 
 ### Data Preprocessing
 
-Data will be preprocessed by considering the missing data, outliers, stock split and dividend. Returns of the stock or ETF will be calculated and converted  into a stationary time series sequence. Then it will be divided into training set, and testing set with rate 80:20 for further analysis. 
+Data will be preprocessed by considering the missing data, outliers, stock split and dividend. Returns of the stock or ETF will be calculated and converted  into a stationary time series sequence. Then it will be divided into training set, and testing set with rate 8:2 for further analysis. 
 
 ### Neural Network Development
 
