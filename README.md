@@ -3,15 +3,9 @@
 ## Overview
 
 >  To synthesize profitable trading strategies, accurately predicting future stock prices is crucial. There are mainly three approaches to make such predictions: 
->
-> - cross-sectional regressions (OLS)
->    - cons: low accuracy due to the violation of OLS assumptions
-> - time series models (e.g. ARIMA)
->    - cons: don't work well on volatile data
-> - machine learning models.
->    - machine learning models have shown higher accuracy even for volatile data
-> - Our goal is to compare the prediction accuracy of two machine learning algorithms, Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM), and find the optimal model to conduct multivariate time series forecasting mainly by Python. 
-
+   cross-sectional regressions, traditional time series models and machine learning models. 
+>  Since machine learning models have shown higher accuracy even for volatile data, we hope to find an effective stock price forecasting model by comparing the prediction accuracy of two machine learning algorithms: Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM)
+>  
 ## Design
 
 - Data
