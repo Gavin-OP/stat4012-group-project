@@ -4,13 +4,14 @@
 
 >  To synthesize profitable trading strategies, accurately predicting future stock prices is crucial. There are mainly three approaches to make such predictions: 
    cross-sectional regressions, traditional time series models and machine learning models. 
->  Since machine learning models have shown higher accuracy even for volatile data, we hope to find an effective stock price forecasting model by comparing the prediction accuracy of two machine learning algorithms: Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM)
+   
+>  Since machine learning models have shown higher accuracy even for volatile data, we hope to find an effective stock price forecasting model by comparing the prediction accuracy of two deep learning algorithms: Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM). We will also compare the performance of our selected model with the Random Forest algorithm to test its capability.
 >  
 ## Design
 
 - Data
 
-  We will be using a single stock/ETF's historical pricing data (High, Low, Open, Close, Volume) for one year, at 5-minute intervals.
+  We will be using the historical pricing data of Tencent(0700.HK) for one year, at 5-minute intervals.
 
 - Logistic
 
