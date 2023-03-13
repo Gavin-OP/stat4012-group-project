@@ -10,7 +10,7 @@
 >    - cons: don't work well on volatile data
 > - machine learning models.
 >    - machine learning models have shown higher accuracy even for volatile data
-> - Our goal is to compare the prediction accuracy of two machine learning algorithms, Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM), and find the optimal model to conduct multivariate time series forecasting.
+> - Our goal is to compare the prediction accuracy of two machine learning algorithms, Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM), and find the optimal model to conduct multivariate time series forecasting mainly by Python. 
 
 ## Design
 
@@ -45,9 +45,21 @@
 
 Stock price and relative information will be download from Bloomberg terminal or [Yahoo Finance](https://finance.yahoo.com/). We will collect a single stock or ETF's historical pricing data (High, Low, Open, Close) at 5-minute intervals, in A-Share market for past one year. 
 
-1. Preprocess data by calculating returns and converting it into a stationary sequence
-2. Initialize a neural network architecture through xxx
-3. Prune unnecessary nodes
+### Data Preprocessing
+
+Data will be preprocessed by considering the missing data, outliers, stock split and dividend. Returns of the stock or ETF will be calculated and converted  into a stationary time series sequence. Then it will be divided into training set, and testing set with rate 80:20 for further analysis. 
+
+### Neural Network Development
+
+Initialize a neural network architecture through two chosen model CNN and LSTM. 
+
+- For CNN model, # of layer, optimizer, hyperparameters. 
+
+1. Prune unnecessary nodes
+
+### Model Training
+
+
 
 ## References
 
@@ -57,5 +69,5 @@ Stock price and relative information will be download from Bloomberg terminal or
 
 3. [How to choose the number of hidden layers and nodes in a feedforward neural network?](https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw) 
 
-   [^1]: 1. the number of hidden layers equals one; and 2. the number of neurons in that layer is the mean of the neurons in the input and output layers.
+   [^1]: the number of hidden layers equals one; and the number of neurons in that layer is the mean of the neurons in the input and output layers.
    [^2]: Refer to Reference 3.
