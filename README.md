@@ -26,7 +26,7 @@
 
   The hyperparameters we will be testing are:
 
-  - Number of layers (hidden layer=1)
+  - Number of layers
   - Number of neurons in each layer
   - Batch size
   - Activation function
