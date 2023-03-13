@@ -2,57 +2,53 @@
 
 ## Overview
 
->  To synthesize profitable trading strategies, accurately predicting future stock prices is crucial. There are mainly three approaches to make such predictions: 
-   cross-sectional regressions, traditional time series models and machine learning models. 
+>  To synthesize profitable trading strategies, accurately predicting future stock prices is crucial. There are mainly three approaches to make such predictions: cross-sectional regressions, traditional time series models and machine learning models. 
    
->  Since machine learning models have shown higher accuracy even for volatile data, we hope to find an effective stock price forecasting model by comparing the prediction accuracy of two deep learning algorithms: Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM). We will also compare the performance of our selected model with the Random Forest algorithm to test its capability.
->  
+   Since machine learning models have shown higher accuracy even for volatile data, we hope to find an effective stock price forecasting model by comparing the prediction accuracy of two deep learning algorithms: Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM). We will also compare the performance of our selected model with the Random Forest algorithm to test its capability.
+
 ## Design
 
-- Data
+- Hyperparameters
 
-  We will be using the historical pricing data of Tencent(0700.HK) for one year, at 5-minute intervals.
+  The hyperparameters we will be testing are:
 
-- Logistic
-
-  We will set the length of the moving window to be 5 days, i.e. take the price data of previous 5 days as input and predict the price for the following day
-
-- Hyperparameters 
- 
   - Number of layers
   - Number of neurons in each layer
+  - Batch size
   - Activation function
   - Optimizer
 
 - Evaluating Measures
 
-  We will first evaluate models by comparing their accuracy and generalization error 
-  Next, we will conduct hypothesis tests such as the Diebold and Mariano (1995) and Giacomini and White (2006) tests to examine the relative predictive ability of different models.
+  We will be evaluating models by comparing their accuracy and generalization error 
+  We will also conduct hypothesis tests such as the Diebold and Mariano (1995) and Giacomini and White (2006) tests to examine the relative predictive ability of different models.
 
+- Questions to Answer
+  - How to decide the number of layers and neurons in each layer?[^2]
 
 ## Implementation
 
 ### Data Collection
 
-Stock price and relative information will be download from Bloomberg terminal or [Yahoo Finance](https://finance.yahoo.com/). We will collect Tencent's historical pricing data (High, Low, Open, Close, Volume) at 5-minute intervals, in A-Share market for past one year. 
+Stock price and relative information will be download from Bloomberg terminal or [Yahoo Finance](https://finance.yahoo.com/). A single stock (i.e. Tencent 0700.HK) historical pricing data (`High`, `Low`, `Open`, `Close`) and trading `Volume` at 5-minute intervals in Hong Kong stock market for past 3 year will be collected. `High`, `Low`,`Close` and ` Volume` will be the regressors (features) while `Open` price will be the response.  
 
 ### Data Preprocessing
 
-Data will be preprocessed by considering the missing data, outliers, stock split and dividend. Returns of the stock or ETF will be calculated and converted  into a stationary time series sequence. Then it will be divided into training set, and testing set with rate 8:2 for further analysis. 
+Data will be preprocessed by considering the missing data, outliers, stock split and dividend. Returns of the stock will be calculated and converted  into a stationary time series sequence. Then it will be divided into training set and testing set with rate 8:2 for further analysis. 
 
 ### Neural Network Development
 
-Initialize a neural network architecture through two chosen model CNN and LSTM. 
+Our neural network model will start from univariate CNN with the return be the feature. Multivariate CNN model will be developed by combining features such as `Volume` after change the data shape. We also want to build a univariate LSTM model based on with previous returns as input to predict the `Open` price for the next few days. 
 
-- For CNN model, # of layer, optimizer, hyperparameters. 
+For CNN model, we will try different hyperparameters# of layer, optimizer, hyperparameters. 
 
 1. Prune unnecessary nodes
 
 ### Model Training
 
-### Model Comparision
+### Model Comparison
 
-Models using algorithms CNN, LSTM and Random Forest will be tested on the testing set respectively. We will conduct hypothesis tests following Diebold and Mariano (1995) and Giacomini and White (2006) to examine the relative predictive ability of different models. Accuracy, Preceision, Recall, F1 score and ROC will be used to measure the performance of each model.
+Models using algorithms CNN, LSTM and Random Forest will be tested on the testing set respectively. We will conduct hypothesis tests following Diebold and Mariano (1995) and Giacomini and White (2006) to examine the relative predictive ability of different models. Accuracy, precision, recall, F1 score and ROC will be used to measure the performance of each model.
 
 
 
