@@ -8,10 +8,16 @@ There are mainly three approaches to make the predication:
 3) Machine learning models  -> Higher accuracy even for volatile data
 
 Our goal:
-Leveraging CNN and LSTM algorithms to conduct multivariate time series forecasting
+Compare the predication accuracy of CNN and LSTM algorithms and find the optimal model to conduct multivariate time series forecasting
 
 Data:
 A single stock/ETF's historical pricing data (High Low Open Close Volume) for one year(?), at 5 mins interval(?) 
 
 Logistic:
 Use High, Low, Close, Volume data as regressors(features) and use Open data as response 
+
+Hyperparameters:
+1. number of layers
+2. batch size
+3. activation function
+4. optimizer
