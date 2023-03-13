@@ -5,7 +5,7 @@ There are mainly three approaches to make the predication:
    cons: low accuracy due to the violation of OLS assumptions
 2) Time series models   (eg ARIMA)
    cons: don't work well on volatile data
-3) Machine learning models  -> Higher
+3) Machine learning models  -> Higher accuracy even for volatile data
 
 Our goal:
 Leveraging CNN and LSTM algorithms to conduct multivariate time series forecasting
