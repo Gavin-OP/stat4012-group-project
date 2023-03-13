@@ -36,11 +36,11 @@ The hyperparameters we will be testing are:
 
 We will be evaluating the accuracy and generalization error of the models.
 
-## Questions to Answer
+### Questions to Answer
 
 1. How to decide the number of layers and neurons in each layer?[^2]
 
-## ## Implementation
+## Implementation
 
 ### Steps
 
@@ -57,5 +57,5 @@ We will be evaluating the accuracy and generalization error of the models.
 
 3. [How to choose the number of hidden layers and nodes in a feedforward neural network?](https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw) 
 
-   [^1]: (i) the number of hidden layers equals one; and (ii) the number of neurons in that layer is the mean of the neurons in the input and output layers.
+   [^1]: 1. the number of hidden layers equals one; and 2. the number of neurons in that layer is the mean of the neurons in the input and output layers.
    [^2]: Refer to Reference 3.
