@@ -57,6 +57,8 @@ Initialize a neural network architecture through two chosen model CNN and LSTM.
 
 ### Model Comparision
 
+Models using algorithms CNN, LSTM and Random Forest will be tested on the testing set respectively. We will conduct hypothesis tests following Diebold and Mariano (1995) and Giacomini and White (2006) to examine the relative predictive ability of different models. Accuracy, Preceision, Recall, F1 score and ROC will be used to measure the performance of each model.
+
 
 
 ## References
