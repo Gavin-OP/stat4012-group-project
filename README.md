@@ -55,6 +55,8 @@ Initialize a neural network architecture through two chosen model CNN and LSTM.
 
 ### Model Training
 
+### Model Comparision
+
 
 
 ## References
