@@ -1,0 +1,17 @@
+To synthesize profitable trading strategies, the key issue is to accurately predict the future stock price.
+
+There are mainly three approaches to make the predication:
+1) Cross-sectional regressions (OLS)
+   cons: low accuracy due to the violation of OLS assumptions
+2) Time series models   (eg ARIMA)
+   cons: don't work well on volatile data
+3) Machine learning models  -> Higher
+
+Our goal:
+Leveraging CNN and LSTM algorithms to conduct multivariate time series forecasting
+
+Data:
+A single stock/ETF's historical pricing data (High Low Open Close Volume) for one year(?), at 5 mins interval(?) 
+
+Logistic:
+Use High, Low, Close, Volume data as regressors(features) and use Open data as response 
