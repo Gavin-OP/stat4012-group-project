@@ -30,7 +30,7 @@
 - Evaluating Measures
 
   We will be evaluating models by comparing their accuracy and generalization error 
-  We will also conduct hypothesis tests such as the Diebold and Mariano (1995) and Giacomini and White (2006) tests to examine the relative predictive ability of different models
+  We will also conduct hypothesis tests such as the Diebold and Mariano (1995) and Giacomini and White (2006) tests to examine the relative predictive ability of different models.
 
 - Questions to Answer
   - How to decide the number of layers and neurons in each layer?[^2]
