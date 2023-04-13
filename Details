@@ -1,0 +1,15 @@
+Collect Features
+1.fundamental: O,H,L,C,V,换手率
+2.technical: 
+  2.1 趋势指标：指数移动平均（EMA), 平滑异同移动平均线（MACD), ROC, S_Roc
+  2.2 强弱指标：相对强弱指标（RSI), 劲道指数
+3. 重要转折点：黄金交叉等 
+4. 事件：股票增发、股东增持减持、派息等
+# 3&4 发生->1 未发生->0
+
+
+Feature Engineering
+1.standardization: ?最大最小标准化 or Z-score标准化
+2.what else could we do?
+
+
