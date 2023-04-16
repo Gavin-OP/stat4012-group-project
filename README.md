@@ -37,12 +37,11 @@ Models using algorithms CNN, LSTM and Random Forest will be tested on the testin
 ## References
 
 1. [Analysis and Forecasting of Financial Time Series Using CNN and LSTM-Based Deep Learning.](https://link.springer.com/chapter/10.1007/978-981-16-4807-6_39)
-
 2. [Integrating Fundamental and Technical Analysis of Stock Market through Multi-layer Perceptron.](https://ieeexplore.ieee.org/abstract/document/8488440)
-
 3. [How to choose the number of hidden layers and nodes in a feedforward neural network?](https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw) 
-
 4. [Convolution on neural networks for high-frequency trend prediction of cryptocurrency exchange rates using technical indicators](https://www.sciencedirect.com/science/article/pii/S0957417420300750?via%3Dihub#bib0018)  
-5. [CNNPred: CNN-based stock market prediction using several data sources](https://www.arxiv-vanity.com/papers/1810.08923/)
+5. [CNNPred: CNN-based stock market prediction using several data sources](https://www.arxiv-vanity.com/papers/1810.08923/)  
+6. [Stock Market Prediction using CNN and LSTM](https://cs230.stanford.edu/projects_winter_2021/reports/70667451.pdf)
+
    [^1]: the number of hidden layers equals one; and the number of neurons in that layer is the mean of the neurons in the input and output layers.
    [^2]: Refer to Reference 3.
