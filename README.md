@@ -3,7 +3,7 @@
 ## Overview
 
 >  To synthesize profitable trading strategies, accurately predicting future stock prices is crucial. There are mainly three approaches to make such predictions: cross-sectional regressions, traditional time series models and machine learning models. 
-   
+
    Since machine learning models have shown higher accuracy even for volatile data, we hope to find an effective stock price forecasting model by comparing the prediction accuracy of two deep learning algorithms: Convolutional Neural Network (CNN) and Long Short-Term Memory (LSTM). We will also compare the performance of our selected model with the Random Forest algorithm to test its capability.
 
 ## Project Design
@@ -12,9 +12,30 @@
 
 Stock price and relative information will be download from Bloomberg terminal or [Yahoo Finance](https://finance.yahoo.com/). A single stock (i.e. Tencent 0700.HK) historical pricing data (`High`, `Low`, `Open`, `Close`) and trading `Volume` at 5-minute intervals in Hong Kong stock market for past 3 year will be collected. `High`, `Low`,`Close` and ` Volume` will be the regressors (features) while `Open` price will be the response.  
 
+Main Features: 
+
+1. fundamental: O,H,L,C,V,换手率
+
+2. technical:
+
+   1. 趋势指标：指数移动平均（EMA), 平滑异同移动平均线（MACD), ROC, S_Roc
+
+   2. 强弱指标：相对强弱指标（RSI), 劲道指数
+
+3. 重要转折点：黄金交叉等 
+
+4. 事件：股票增发、股东增持减持、派息等
+
+   3&4 发生->1 未发生->0
+
 ### Data Preprocessing
 
 Data will be preprocessed by considering the missing data, outliers, stock split and dividend. Returns of the stock will be calculated and converted  into a stationary time series sequence. Then it will be divided into training set and testing set with rate 8:2 for further analysis. 
+
+Feature Engineering
+
+1. standardization: ?最大最小标准化 or Z-score标准化
+2. what else could we do?
 
 ### Neural Network Development
 
