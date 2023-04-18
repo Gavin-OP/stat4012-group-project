@@ -63,6 +63,7 @@ Models using algorithms CNN, LSTM and Random Forest will be tested on the testin
 4. [Convolution on neural networks for high-frequency trend prediction of cryptocurrency exchange rates using technical indicators](https://www.sciencedirect.com/science/article/pii/S0957417420300750?via%3Dihub#bib0018)  
 5. [CNNPred: CNN-based stock market prediction using several data sources](https://www.arxiv-vanity.com/papers/1810.08923/)  
 6. [Stock Market Prediction using CNN and LSTM](https://cs230.stanford.edu/projects_winter_2021/reports/70667451.pdf)
+7. [How to Develop Convolutional Neural Network Models for Time Series Forecasting](https://machinelearningmastery.com/how-to-develop-convolutional-neural-network-models-for-time-series-forecasting/)
 
    [^1]: the number of hidden layers equals one; and the number of neurons in that layer is the mean of the neurons in the input and output layers.
    [^2]: Refer to Reference 3.
