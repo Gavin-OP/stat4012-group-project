@@ -51,7 +51,9 @@ Train the models by backpropagation to minimize the loss function.
 
 Models using algorithms CNN, LSTM and Random Forest will be tested on the testing set respectively. We will conduct hypothesis tests following Diebold and Mariano (1995) and Giacomini and White (2006) to examine the relative predictive ability of different models. Accuracy, precision, recall, F1 score, MSE and ROC will be used to measure the performance of each model.
 
-### To do
+## To do
+
+- Feature Engineering: Set different seeds to pick the accuracy.
 
 - How to decide the number of layers and neurons in each layer?[^2]
 
