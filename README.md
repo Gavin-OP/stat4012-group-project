@@ -54,8 +54,13 @@ Models using algorithms CNN, LSTM and Random Forest will be tested on the testin
 ## To do
 
 - Feature Engineering: Set different seeds to pick the accuracy.
-
 - How to decide the number of layers and neurons in each layer?[^2]
+- 筛选feature，做PCA  
+- 预测price而非return 
+- 2Dconvolutional
+- 用return重新再生成一个stock price
+- train-test-split
+- Regularization
 
 ## References
 
