@@ -1,0 +1,27 @@
+The following is PCA analysis on 8 zero rate daily changes, daily data from July 2000 to Aug 2011
+
+
+```{r}
+## input raw data: daily zero rates
+dataset=read.csv("/Users/zhangpuming/Desktop/time_series/raw_data_adjusted.csv",header=T)
+dataset = na.omit(dataset)
+x=dataset[ ,!(colnames(dataset) %in% c('date'))]
+head(x)
+
+```
+
+
+```{r}
+## Get the daily changes of zero rates, calculate correlation matrix and means
+xdiff=apply(x,2,diff)
+head(xdiff)
+cor(xdiff)
+apply(xdiff,2,mean)
+```
+```{r}
+## PCA analysis on xdiff
+out=princomp(xdiff)
+summary(out)
+out$loadings[,1:3]
+```
+
