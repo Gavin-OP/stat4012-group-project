@@ -20,7 +20,11 @@ data['diff'] = np.sign(data["MA_5"] - data["MA_25"])
 data['signal'] = np.sign(data['diff'] - data['diff'].shift(1))
 data['golden_cross'] = data['signal'].map({1: 1, 0: 0, -1: 0})
 data['death_cross'] = data['signal'].map({-1: 1, 0: 0, 1: 0})
-data = data.drop(columns=['diff', 'signal']).dropna(how='any')
+
+# let golden cross and death cross NAN to be 0
+data['golden_cross'].fillna(0, inplace=True)
+data['death_cross'].fillna(0, inplace=True)
+data = data.drop(columns=['diff', 'signal'])
 print(data[['golden_cross', 'death_cross']].sum())
 
 # plot the golden and death cross
@@ -42,7 +46,8 @@ X = data[['open', 'high', 'low', 'close', 'daily_trading_volume',
 # calculate the sixth day's return
 X['sixth_day_return'] = (
     (X['close'].shift(-5)-X['open'].shift(-5))/X['open'].shift(-5)).dropna(how='any')
-print(X.head(10))
+print('Cleaned data is saved in data.csv. It contains column named:\n', data.columns)
+print(X.head())
 
 # store X as csv file
 X.to_csv('../data/data.csv')
