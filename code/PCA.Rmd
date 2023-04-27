@@ -8,37 +8,172 @@ output:
   pdf_document: default
 ---
 
-The following is PCA analysis on 8 zero rate daily changes, daily data from July 2000 to Aug 2011
-
-
-```{r}
-# input raw data
-library(readxl)
-dataset = read_xlsx('../data/raw_data_adjusted.xlsx')
-dataset = na.omit(dataset)        # handle NA values
-x = dataset[ ,!(colnames(dataset) %in% c('date'))]        # exclude date in dataset x
-head(x)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
 
 ```
 
+The following is PCA analysis on raw data retrieved from Bloomberg.
 
-```{r}
-# Get the daily changes of raw dataframe x
-xdiff = as.data.frame(apply(x, 2, diff))
-head(xdiff)
-
-# plot heatmap of correlation
+```{r Import Library, include=FALSE}
+rm(list=ls())
+library(readxl)
+library(corrr)
+library(ggcorrplot)
 library(ggplot2)
 library(reshape2)
-ggplot(melt(cor(xdiff)), aes(x = Var1, y = Var2, fill = value)) + geom_tile() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + scale_fill_gradient(low = "#56b1f7", high = "#16314b") 
+library(factoextra)
 
-# print the average of x
-as.data.frame(apply(xdiff, 2, mean))
 ```
+
+# Import data
+
+```{r Import Data}
+# input raw data
+dataset = read_xlsx('../data/raw_data_adjusted.xlsx')
+dataset = na.omit(dataset)        # handle NA values
+raw.data = dataset[ ,!(colnames(dataset) %in% c('date'))]        # exclude date in dataset raw_data
+head(raw.data)
+
+# normalize raw data
+raw.data.normalized <- scale(raw.data)
+head(as.data.frame(raw.data.normalized))
+```
+
+**correlation heatmap on raw data & normalized raw data (same plot)**
+
+```{r Raw Data Heatmap}
+# plot correlation heatmap on raw data
+raw.data.corr.matrix <- cor(raw.data)
+ggcorrplot(raw.data.corr.matrix)
+
+```
+
+```{r include=FALSE}
+# plot correlation heatmap on normalized raw data
+# raw.data.normalized.corr.matrix <- cor(raw.data.normalized)
+# ggcorrplot(raw.data.normalized.corr.matrix)
+# ggplot(melt(cor(raw.data)), aes(x = Var1, y = Var2, fill = value)) + geom_tile() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + scale_fill_gradient(low = "#56b1f7", high = "#16314b") 
+
+```
+
+## Method 1: PCA based on raw data
+
+```{r Data Difference}
+# get the daily changes of raw dataframe raw.data
+raw.data.diff = as.data.frame(apply(raw.data, 2, diff))
+head(raw.data.diff)
+
+as.data.frame(apply(raw.data.diff, 2, mean))
+
+```
+
+**correlation heatmap on data difference**
+
+```{r Data Difference Heatmap}
+# heatmap of correlation on raw data
+raw.data.diff.corr.matrix <- cor(raw.data.diff)
+ggcorrplot(raw.data.diff.corr.matrix)
+
+```
+
+### PCA analysis on data difference
+
 ```{r}
-## PCA analysis on xdiff
-out = princomp(xdiff)
-summary(out)
-as.data.frame(out$loadings[,1:3])
+# PCA analysis on raw.data.diff
+out1 = princomp(raw.data.diff)
+
+# visualization of PAC result
+as.data.frame(out1$loadings[,1:4])
+
+
+fviz_eig(out1, addlabels = TRUE)
+
+# graph of the variables
+fviz_pca_var(out1, col.var = "cos2", gradient.cols = c("black", "yellow", "red"), repel = TRUE)
+
+# contribution of each variable
+fviz_cos2(out1, choice = "var", axes = 1:2)
 ```
 
+### *!!!!PCA analysis on correlation of data difference*
+
+```{r}
+# PCA analysis on corr.matrix
+out2 = princomp(raw.data.diff.corr.matrix)
+
+# visualization of PAC result
+as.data.frame(out2$loadings[,1:4])
+
+fviz_eig(out2, addlabels = TRUE)
+
+# graph of the variables
+fviz_pca_var(out2, col.var = "cos2", gradient.cols = c("black", "yellow", "red"), repel = TRUE)
+
+# contribution of each variable
+fviz_cos2(out2, choice = "var", axes = 1:2)
+```
+
+## Method 2: PCA based on normalized raw data
+
+```{r Normalized Data Difference}
+# get the daily changes of nromalized dataframe 
+normalized.data.diff = as.data.frame(apply(raw.data.normalized, 2, diff))
+head(normalized.data.diff)
+
+
+as.data.frame(apply(normalized.data.diff, 2, mean))
+
+```
+
+**correlation heatmap on normalized data difference** Same as correlation heatmap on data difference
+
+```{r Normalized Data Difference Heatmap, include=FALSE}
+# heatmap of correlation on normalized data
+normalized.data.diff.corr.matrix <- cor(normalized.data.diff)
+ggcorrplot(normalized.data.diff.corr.matrix)
+
+```
+
+### PCA analysis on normalized data difference
+
+```{r}
+# PCA analysis on normalzied.data.diff
+out3 = princomp(normalized.data.diff)
+
+# visualization of PAC result
+as.data.frame(out3$loadings[,1:4])
+
+fviz_eig(out3, addlabels = TRUE)
+
+# graph of the variables
+fviz_pca_var(out3, col.var = "cos2", gradient.cols = c("black", "yellow", "red"), repel = TRUE)
+
+# contribution of each variable
+fviz_cos2(out3, choice = "var", axes = 1:2)
+```
+
+### PCA analysis on correlation of nromalized data difference
+
+Same as PCA analysis on correlation of data difference.
+
+```{r include=FALSE}
+# PCA analysis on corr.matrix
+out4 = princomp(normalized.data.diff.corr.matrix)
+
+# visualization of PAC result
+as.data.frame(out4$loadings[,1:4])
+
+fviz_eig(out4, addlabels = TRUE)
+
+# graph of the variables
+fviz_pca_var(out4, col.var = "cos2", gradient.cols = c("black", "yellow", "red"), repel = TRUE)
+
+# contribution of each variable
+fviz_cos2(out4, choice = "var", axes = 1:2)
+```
+
+## References
+
+<https://www.datacamp.com/tutorial/pca-analysis-r>
