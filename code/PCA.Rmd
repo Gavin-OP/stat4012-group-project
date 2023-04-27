@@ -1,27 +1,44 @@
+---
+title: "Principal Component Analysis (PCA)"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+  pdf_document: default
+---
+
 The following is PCA analysis on 8 zero rate daily changes, daily data from July 2000 to Aug 2011
 
 
 ```{r}
-## input raw data: daily zero rates
-dataset=read.csv("/Users/zhangpuming/Desktop/time_series/raw_data_adjusted.csv",header=T)
-dataset = na.omit(dataset)
-x=dataset[ ,!(colnames(dataset) %in% c('date'))]
+# input raw data
+library(readxl)
+dataset = read_xlsx('../data/raw_data_adjusted.xlsx')
+dataset = na.omit(dataset)        # handle NA values
+x = dataset[ ,!(colnames(dataset) %in% c('date'))]        # exclude date in dataset x
 head(x)
 
 ```
 
 
 ```{r}
-## Get the daily changes of zero rates, calculate correlation matrix and means
-xdiff=apply(x,2,diff)
+# Get the daily changes of raw dataframe x
+xdiff = as.data.frame(apply(x, 2, diff))
 head(xdiff)
-cor(xdiff)
-apply(xdiff,2,mean)
+
+# plot heatmap of correlation
+library(ggplot2)
+library(reshape2)
+ggplot(melt(cor(xdiff)), aes(x = Var1, y = Var2, fill = value)) + geom_tile() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) + scale_fill_gradient(low = "#56b1f7", high = "#16314b") 
+
+# print the average of x
+as.data.frame(apply(xdiff, 2, mean))
 ```
 ```{r}
 ## PCA analysis on xdiff
-out=princomp(xdiff)
+out = princomp(xdiff)
 summary(out)
-out$loadings[,1:3]
+as.data.frame(out$loadings[,1:3])
 ```
 
