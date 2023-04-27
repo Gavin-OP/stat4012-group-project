@@ -14,7 +14,7 @@ rm(list=ls())
 
 ```
 
-The following is PCA analysis on raw data retrieved from Bloomberg.
+The following is PCA analysis on raw data retrieved from Bloomberg. 
 
 ```{r Import Library, include=FALSE}
 rm(list=ls())
@@ -31,13 +31,15 @@ library(factoextra)
 
 ```{r Import Data}
 # input raw data
-dataset = read_xlsx('../data/raw_data_adjusted.xlsx')
+dataset = read.csv('../data/data.csv')
 dataset = na.omit(dataset)        # handle NA values
-raw.data = dataset[ ,!(colnames(dataset) %in% c('date'))]        # exclude date in dataset raw_data
+remove.columns = c('date', 'daily_trading_value', 'UBB', 'LBB', 'BollMA', 'MA_5', 'MA_25', 'MACD', 'sig_9', 'diff', 'golden_cross', 'death_cross', 'sixth_day_return')
+raw.data = dataset[ ,!(colnames(dataset) %in% remove.columns)]        # exclude date in dataset raw_data
 head(raw.data)
 
 # normalize raw data
 raw.data.normalized <- scale(raw.data)
+raw.data.normalized <- cbind(raw.data.normalized, dataset[, c('golden_cross', 'death_cross')])
 head(as.data.frame(raw.data.normalized))
 ```
 
@@ -58,7 +60,7 @@ ggcorrplot(raw.data.corr.matrix)
 
 ```
 
-## Method 1: PCA based on raw data
+## Method 1: PCA based on raw data diff
 
 ```{r Data Difference}
 # get the daily changes of raw dataframe raw.data
@@ -102,9 +104,12 @@ fviz_cos2(out1, choice = "var", axes = 1:2)
 ```{r}
 # PCA analysis on corr.matrix
 out2 = princomp(raw.data.diff.corr.matrix)
+summary(out2)
 
 # visualization of PAC result
-as.data.frame(out2$loadings[,1:4])
+(PCA_componants <- as.data.frame(out2$loadings[,1:3]))
+setwd('../data')
+write.csv(PCA_componants, file = 'diff_corr_PCA_componants.csv')
 
 fviz_eig(out2, addlabels = TRUE)
 
@@ -113,12 +118,13 @@ fviz_pca_var(out2, col.var = "cos2", gradient.cols = c("black", "yellow", "red")
 
 # contribution of each variable
 fviz_cos2(out2, choice = "var", axes = 1:2)
+
 ```
 
-## Method 2: PCA based on normalized raw data
+## Method 2: PCA based on normalized raw data diff
 
 ```{r Normalized Data Difference}
-# get the daily changes of nromalized dataframe 
+# get the daily changes of normalized dataframe 
 normalized.data.diff = as.data.frame(apply(raw.data.normalized, 2, diff))
 head(normalized.data.diff)
 
@@ -174,6 +180,57 @@ fviz_pca_var(out4, col.var = "cos2", gradient.cols = c("black", "yellow", "red")
 fviz_cos2(out4, choice = "var", axes = 1:2)
 ```
 
+## Method 3: PCA based on normalized data
+```{r}
+# PCA analysis on normalzied.data
+out5 = princomp(raw.data.normalized)
+summary(out5)
+
+# visualization of PAC result
+(PCA_componants <- as.data.frame(out5$loadings[,1:5]))
+setwd('../data')
+write.csv(PCA_componants, file = 'normalized_data_PCA_componants.csv')
+
+
+# visualization of PAC result
+as.data.frame(out5$loadings[,1:4])
+
+fviz_eig(out5, addlabels = TRUE)
+
+# graph of the variables
+fviz_pca_var(out5, col.var = "cos2", gradient.cols = c("black", "yellow", "red"), repel = TRUE)
+
+# contribution of each variable
+fviz_cos2(out3, choice = "var", axes = 1:2)
+```
+
+## Method 4: PCA based on correlation of normalized data
+```{r}
+normalized.data.corr.matrix <- cor(raw.data.normalized)
+
+# PCA analysis on normalzied.data
+out6 = princomp(normalized.data.corr.matrix)
+summary(out6)
+
+# visualization of PAC result
+(PCA_componants <- as.data.frame(out6$loadings[,1:4]))
+setwd('../data')
+write.csv(PCA_componants, file = 'normalized_data_corr_PCA_componants.csv')
+
+
+# visualization of PAC result
+as.data.frame(out6$loadings[,1:4])
+
+fviz_eig(out6, addlabels = TRUE)
+
+# graph of the variables
+fviz_pca_var(out6, col.var = "cos2", gradient.cols = c("black", "yellow", "red"), repel = TRUE)
+
+# contribution of each variable
+fviz_cos2(out3, choice = "var", axes = 1:2)
+```
+
 ## References
 
-<https://www.datacamp.com/tutorial/pca-analysis-r>
+[Principal Component Analysis in R Tutorial](https://www.datacamp.com/tutorial/pca-analysis-r)  
+[Principal Component Analysis (PCA) 101, using R](https://towardsdatascience.com/principal-component-analysis-pca-101-using-r-361f4c53a9ff)

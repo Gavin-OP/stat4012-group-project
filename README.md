@@ -61,6 +61,8 @@ Models using algorithms CNN, LSTM and Random Forest will be tested on the testin
 - 用return重新再生成一个stock price
 - train-test-split
 - Regularization
+- PCA 是否应该加入golden cross和death cross
+- PCA之后的Comp1，Comp2应该和normalized之后的data结合还是之前结合
 
 ## References
 
