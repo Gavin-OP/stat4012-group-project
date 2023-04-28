@@ -55,13 +55,12 @@ Models using algorithms CNN, LSTM and Random Forest will be tested on the testin
 
 - Feature Engineering: Set different seeds to pick the accuracy.
 - How to decide the number of layers and neurons in each layer?[^2]
-- 筛选feature，做PCA  
 - 预测price而非return 
 - 2Dconvolutional
 - 用return重新再生成一个stock price
 - train-test-split
 - Regularization
-- PCA 是否应该加入golden cross和death cross
+- 如果normalize之后，predict的时候应该如何处理？
 - PCA之后的Comp1，Comp2应该和normalized之后的data结合还是之前结合
 
 ## References

@@ -25,6 +25,7 @@ library(ggplot2)
 library(reshape2)
 library(factoextra)
 
+
 ```
 
 # Import data
@@ -39,7 +40,7 @@ head(raw.data)
 
 # normalize raw data
 raw.data.normalized <- scale(raw.data)
-raw.data.normalized <- cbind(raw.data.normalized, dataset[, c('golden_cross', 'death_cross')])
+
 head(as.data.frame(raw.data.normalized))
 ```
 
@@ -49,6 +50,8 @@ head(as.data.frame(raw.data.normalized))
 # plot correlation heatmap on raw data
 raw.data.corr.matrix <- cor(raw.data)
 ggcorrplot(raw.data.corr.matrix)
+normalized.data.corr.matrix <- cor(raw.data.normalized)
+ggcorrplot(normalized.data.corr.matrix)
 
 ```
 
@@ -80,7 +83,6 @@ ggcorrplot(raw.data.diff.corr.matrix)
 
 ```
 
-### PCA analysis on data difference
 
 ```{r}
 # PCA analysis on raw.data.diff
@@ -99,9 +101,9 @@ fviz_pca_var(out1, col.var = "cos2", gradient.cols = c("black", "yellow", "red")
 fviz_cos2(out1, choice = "var", axes = 1:2)
 ```
 
-### *!!!!PCA analysis on correlation of data difference*
+## Method 2: PCA analysis on correlation of data difference
 
-```{r}
+```{r include=FALSE}
 # PCA analysis on corr.matrix
 out2 = princomp(raw.data.diff.corr.matrix)
 summary(out2)
@@ -121,13 +123,12 @@ fviz_cos2(out2, choice = "var", axes = 1:2)
 
 ```
 
-## Method 2: PCA based on normalized raw data diff
+## Method 3: PCA based on normalized raw data diff (Choice 1)
 
 ```{r Normalized Data Difference}
 # get the daily changes of normalized dataframe 
 normalized.data.diff = as.data.frame(apply(raw.data.normalized, 2, diff))
 head(normalized.data.diff)
-
 
 as.data.frame(apply(normalized.data.diff, 2, mean))
 
@@ -142,14 +143,16 @@ ggcorrplot(normalized.data.diff.corr.matrix)
 
 ```
 
-### PCA analysis on normalized data difference
 
 ```{r}
 # PCA analysis on normalzied.data.diff
 out3 = princomp(normalized.data.diff)
+summary(out3)
 
 # visualization of PAC result
-as.data.frame(out3$loadings[,1:4])
+(PCA_componants <- as.data.frame(out3$loadings[,1:2]))
+setwd('../data')
+write.csv(PCA_componants, file = 'normalized_data_diff_PCA_componants.csv')
 
 fviz_eig(out3, addlabels = TRUE)
 
@@ -160,7 +163,7 @@ fviz_pca_var(out3, col.var = "cos2", gradient.cols = c("black", "yellow", "red")
 fviz_cos2(out3, choice = "var", axes = 1:2)
 ```
 
-### PCA analysis on correlation of nromalized data difference
+## Method 4: PCA analysis on correlation of nromalized data difference
 
 Same as PCA analysis on correlation of data difference.
 
@@ -180,14 +183,14 @@ fviz_pca_var(out4, col.var = "cos2", gradient.cols = c("black", "yellow", "red")
 fviz_cos2(out4, choice = "var", axes = 1:2)
 ```
 
-## Method 3: PCA based on normalized data
+## Method 5: PCA based on normalized data (Choice 2)
 ```{r}
 # PCA analysis on normalzied.data
 out5 = princomp(raw.data.normalized)
 summary(out5)
 
 # visualization of PAC result
-(PCA_componants <- as.data.frame(out5$loadings[,1:5]))
+(PCA_componants <- as.data.frame(out5$loadings[, 1:5]))
 setwd('../data')
 write.csv(PCA_componants, file = 'normalized_data_PCA_componants.csv')
 
@@ -204,8 +207,8 @@ fviz_pca_var(out5, col.var = "cos2", gradient.cols = c("black", "yellow", "red")
 fviz_cos2(out3, choice = "var", axes = 1:2)
 ```
 
-## Method 4: PCA based on correlation of normalized data
-```{r}
+## Method 6: PCA based on correlation of normalized data
+```{r, include=FALSE}
 normalized.data.corr.matrix <- cor(raw.data.normalized)
 
 # PCA analysis on normalzied.data

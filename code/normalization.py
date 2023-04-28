@@ -1,3 +1,7 @@
+# Description: 
+# Normalize features data exclude golden cross and death cross
+# Using Min-Max Normalization
+
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
