@@ -1,8 +1,7 @@
 # Description:
-# Reshape data into 2D matrix for CNN input
-# Split data into train and test set
-# Dimension of X_train, X_test, y_train, y_test:
-#
+# Reshape data into 3D matrix for CNN input
+# Dimension of X: (1348, 5, 7)
+# Dimension of y: (1348, )
 
 from numpy import array
 from feature_construction import *
@@ -25,11 +24,14 @@ def feature_reshape(feature, n_days=5, stride=1):
         X.append(seq_X)
 
         # display first 5 samples in a pandas dataframe for better visualization
-        if i < 5:
-            print('X=%s' % (seq_X))
-        
-
+        # if i < 5:
+        #     print('X=%s' % (seq_X))
     return array(X)
 
 
-print(feature_reshape(X))
+X = feature_reshape(X)
+X = X[:-1]  # drop the last sample because we don't have y for it
+print(X.shape)
+
+y = y.dropna()
+print(y.shape)

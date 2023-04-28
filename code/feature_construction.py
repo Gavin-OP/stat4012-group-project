@@ -35,23 +35,24 @@ print(X.head())
 y = sixth_day_return
 print(y.head())
 
-# plot the new features
-# plt.figure(figsize=(10, 8))
-# plt.plot(X['Comp.1'], label='Comp.1')
-# plt.plot(X['Comp.2'], label='Comp.2')
-# plt.plot(X['Comp.3'], label='Comp.3')
-# plt.plot(X['Comp.4'], label='Comp.4')
-# plt.plot(X['Comp.5'], label='Comp.5')
-# plt.scatter(X[X['golden_cross'] == 1].index,
-#             X[X['golden_cross'] == 1]['Comp.2'], label='golden_cross', marker='^', color='green')
-# plt.scatter(X[X['death_cross'] == 1].index,
-#             X[X['death_cross'] == 1]['Comp.2'], label='golden_cross', marker='v', color='red')
+# plot the new features only display 5 x-axis labels
+plt.figure(figsize=(10, 8))
+plt.plot(X['Comp.1'], label='Comp.1')
+plt.plot(X['Comp.2'], label='Comp.2')
+plt.plot(X['Comp.3'], label='Comp.3')
+plt.plot(X['Comp.4'], label='Comp.4')
+plt.plot(X['Comp.5'], label='Comp.5')
+plt.scatter(X[X['golden_cross'] == 1].index,
+            X[X['golden_cross'] == 1]['Comp.2'], label='golden_cross', marker='^', color='green')
+plt.scatter(X[X['death_cross'] == 1].index,
+            X[X['death_cross'] == 1]['Comp.2'], label='golden_cross', marker='v', color='red')
+plt.xticks(X.index[::int(len(X) / 5)])
+plt.legend()
+plt.show()
 
-# plt.legend()
-# plt.show()
-
-# plot label
-# plt.figure(figsize=(10, 8))
-# plt.plot(y, label='sixth_day_return')
-# plt.legend()
-# plt.show()
+# plot label only display 5 x-axis labels
+plt.figure(figsize=(10, 8))
+plt.plot(y, label='sixth_day_return')
+plt.xticks(y.index[::int(len(y) / 5)])
+plt.legend()
+plt.show()
