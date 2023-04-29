@@ -1,7 +1,7 @@
 # Description:
 # Reshape data into 3D matrix for CNN input
-# Dimension of X: (1348, 5, 7)
-# Dimension of y: (1348, )
+# Dimension of X: (1347, 5, 7)
+# Dimension of y: (1347, )
 
 from numpy import array
 from feature_construction import *
@@ -30,7 +30,7 @@ def feature_reshape(feature, n_days=5, stride=1):
 
 
 X = feature_reshape(X)
-X = X[:-1]  # drop the last sample because we don't have y for it
+X = X[:-2]  # drop the last sample because we don't have y for it
 print(X.shape)
 
 y = y.dropna()

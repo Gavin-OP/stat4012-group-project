@@ -44,8 +44,9 @@ X = data[['open', 'high', 'low', 'close', 'daily_trading_volume',
           'RSI_14', 'BollW', 'precent_B', 'BIAS', 'ROC_1', 'golden_cross', 'death_cross']]
 
 # calculate the sixth day's return
-X['sixth_day_return'] = (
-    (X['close'].shift(-5)-X['open'].shift(-5))/X['open'].shift(-5)).dropna(how='any')
+# X['sixth_day_return'] = (
+#     (X['close'].shift(-5)-X['open'].shift(-5))/X['open'].shift(-5)).dropna(how='any')
+X['sixth_day_return'] = (X['close'].shift(-5) - X['close'].shift(-6)) /  X['close'].shift(-6).dropna(how='any')
 print('Cleaned data is saved in data.csv. It contains column named:\n', data.columns)
 print(X.head())
 
