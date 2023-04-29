@@ -14,8 +14,7 @@ def fit_model(seed=4012, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN'
         n_days=n_days, stride=stride, model=model_type, diff=diff)
     random.seed(seed)
     np.random.seed(seed)
-
-    # tf.set_random_seed(seed)
+    tf.random.set_seed(seed)
     history = model.fit(X_train, y_train, epochs=epochs)
     # plot history
     plt.figure(figsize=(10, 8))
@@ -30,20 +29,20 @@ def fit_model(seed=4012, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN'
     model.save(filename)
 
 if __name__ == "__main__":
-    fit_model(seed=4012, epochs=100, cnn=1, n_days=20,
+    fit_model(seed=4012, epochs=100, cnn=1, n_days=5,
           stride=1, model_type='CNN', diff=False)
-    # fit_model(seed=808, epochs=100, cnn=1, n_days=5,
-    #       stride=1, model_type='CNN', diff=False)
-    # fit_model(seed=123, epochs=100, cnn=1, n_days=5,
-    #         stride=1, model_type='CNN', diff=False)
-    # fit_model(seed=1155, epochs=100, cnn=1, n_days=5,
-    #         stride=1, model_type='CNN', diff=False)
-    # fit_model(seed=1702, epochs=100, cnn=1, n_days=5,
-    #         stride=1, model_type='CNN', diff=False)
-    # fit_model(seed=721, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # fit_model(seed=2001, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # fit_model(seed=144, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # fit_model(seed=1024, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # fit_model(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    fit_model(seed=808, epochs=100, cnn=1, n_days=5,
+          stride=1, model_type='CNN', diff=False)
+    fit_model(seed=123, epochs=100, cnn=1, n_days=5,
+            stride=1, model_type='CNN', diff=False)
+    fit_model(seed=1155, epochs=100, cnn=1, n_days=5,
+            stride=1, model_type='CNN', diff=False)
+    fit_model(seed=1702, epochs=100, cnn=1, n_days=5,
+            stride=1, model_type='CNN', diff=False)
+    fit_model(seed=721, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    fit_model(seed=2001, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    fit_model(seed=144, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    fit_model(seed=1024, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    fit_model(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
     print('fit model done')
     

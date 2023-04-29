@@ -62,14 +62,14 @@ def price_pred_graph(return_pred, seed=4012, cnn=1, n_days=5, stride=1, model_ty
 
 
 if __name__ == "__main__":
-    y_test, y_pred = predict_price(seed = 4012, cnn=1, n_days=10, stride=1, model_type='CNN', diff=False)
-    # y_test, y_pred = predict_price(seed = 808, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # y_test, y_pred = predict_price(
-    #     seed=123, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # y_test, y_pred = predict_price(seed=1155, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # y_test, y_pred = predict_price(seed=1702, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # y_test, y_pred = predict_price(seed=721, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # y_test, y_pred = predict_price(seed=2001, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # y_test, y_pred = predict_price(seed=144, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # y_test, y_pred = predict_price(seed=1024, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    # y_test, y_pred = predict_price(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(seed = 4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(seed = 808, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(
+        seed=123, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(seed=1155, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(seed=1702, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(seed=721, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(seed=2001, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(seed=144, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(seed=1024, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
