@@ -23,3 +23,6 @@ def price_pred_graph():
     plt.plot(y_pred,label='pred')
     plt.xticks(y_true.index[::int(len(y_true) / 5)])
     plt.show()
+
+if __name__ == '__main__':
+    price_pred_graph()

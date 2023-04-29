@@ -24,6 +24,21 @@ def fit_model(seed=4012, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN'
         '_diff' + str(diff) + '.h5'
     model.save(filename)
 
-
-fit_model(seed=4012, epochs=100, cnn=1, n_days=5,
+if __name__ == "__main__":
+    fit_model(seed=4012, epochs=100, cnn=1, n_days=5,
           stride=1, model_type='CNN', diff=False)
+    fit_model(seed=808, epochs=100, cnn=1, n_days=5,
+          stride=1, model_type='CNN', diff=False)
+    fit_model(seed=123, epochs=100, cnn=1, n_days=5,
+            stride=1, model_type='CNN', diff=False)
+    fit_model(seed=1155, epochs=100, cnn=1, n_days=5,
+            stride=1, model_type='CNN', diff=False)
+    fit_model(seed=1702, epochs=100, cnn=1, n_days=5,
+            stride=1, model_type='CNN', diff=False)
+    fit_model(seed=721, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    fit_model(seed=2001, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    fit_model(seed=144, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    fit_model(seed=1024, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    fit_model(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    print('fit model done')
+    
