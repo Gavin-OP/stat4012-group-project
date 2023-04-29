@@ -11,8 +11,6 @@ from keras.metrics import accuracy, mean_squared_error, Precision, Recall
 from train_test_split import train_test_split_4012
 from normalization import *
 
-# define model
-
 
 def cnn_model1():
     model = Sequential()
@@ -32,33 +30,33 @@ def cnn_model1():
     return model
 
 # fit model
-model = cnn_model1()
+# model = cnn_model1()
 
-X_train, X_test, y_train, y_test = train_test_split_4012(n_days=5, stride=1, model='CNN', diff=False)
-random.seed(4012)
-history = model.fit(X_train, y_train, epochs=100)
+# X_train, X_test, y_train, y_test = train_test_split_4012(n_days=5, stride=1, model='CNN', diff=False)
+# random.seed(4012)
+# history = model.fit(X_train, y_train, epochs=100)
 # plot history
-plt.figure(figsize=(10, 8))
-plt.plot(history.history['loss'], label='train')
-plt.legend()
-plt.show()
+# plt.figure(figsize=(10, 8))
+# plt.plot(history.history['loss'], label='train')
+# plt.legend()
+# plt.show()
 
 # make a prediction
-y_pred = model.predict(X_test)
-print(model.summary())
+# y_pred = model.predict(X_test)
+# print(model.summary())
 
 # plot prediction only display 5 x-axis label, make y_test and y_pred into dataframe
-plt.figure(figsize=(10, 8))
-plt.plot(y_test.index, y_test, label='y_test')
-plt.plot(y_test.index, y_pred, label='y_pred')
-plt.xticks(y_test.index[::int(len(y_test) / 5)])
-plt.legend()
-plt.show()
+# plt.figure(figsize=(10, 8))
+# plt.plot(y_test.index, y_test, label='y_test')
+# plt.plot(y_test.index, y_pred, label='y_pred')
+# plt.xticks(y_test.index[::int(len(y_test) / 5)])
+# plt.legend()
+# plt.show()
 
 # regenerate close price based on prediction return
-y_pred_return = pd.Series(y_pred.flatten(), index=y_test.index)
+# y_pred_return = pd.Series(y_pred.flatten(), index=y_test.index)
 # save y_pred_return to csv file
-y_pred_return.to_csv('../data/y_pred_return.csv')
+# y_pred_return.to_csv('../data/y_pred_return.csv')
 
 # close_pred = data['open'].iloc[int(
 #     len(data) * 0.8):] * y_pred_return + data['open'].iloc[int(len(data) * 0.8):]
@@ -77,7 +75,7 @@ y_pred_return.to_csv('../data/y_pred_return.csv')
 #     print('close_pred: ', close_pred[i])
     
 
-close_test = data['close'].iloc[int(len(data) * 0.8):]
+# close_test = data['close'].iloc[int(len(data) * 0.8):]
 
 # plot data['close'] only display 5 x-axis label
 # plt.figure(figsize=(10, 8))
