@@ -8,7 +8,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Conv1D, Flatten, BatchNormalization, Activation, MaxPooling1D
 from keras.optimizers import Adam
 from keras.metrics import accuracy, mean_squared_error, Precision, Recall
-from train_test_split import *
+from train_test_split import train_test_split_4012
 from normalization import *
 
 # define model
@@ -31,10 +31,10 @@ def cnn_model1():
     model.compile(optimizer=Adam(lr=0.0001), loss='mse', metrics=['accuracy'])
     return model
 
-
 # fit model
 model = cnn_model1()
 
+X_train, X_test, y_train, y_test = train_test_split_4012(n_days=5, stride=1, model='CNN', diff=False)
 random.seed(4012)
 history = model.fit(X_train, y_train, epochs=100)
 # plot history
@@ -47,7 +47,7 @@ plt.show()
 y_pred = model.predict(X_test)
 print(model.summary())
 
-# plot prediction only display 5 x-axis label
+# plot prediction only display 5 x-axis label, make y_test and y_pred into dataframe
 plt.figure(figsize=(10, 8))
 plt.plot(y_test.index, y_test, label='y_test')
 plt.plot(y_test.index, y_pred, label='y_pred')
