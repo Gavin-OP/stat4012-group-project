@@ -28,10 +28,11 @@ def feature_reshape(feature, n_days=5, stride=1):
         #     print('X=%s' % (seq_X))
     return array(X)
 
-X, y = PCA_feature_construction(diff=False)
-X = feature_reshape(X)
-X = X[:-2]  # drop the last sample because we don't have y for it
-print(X.shape)
+if __name__ == '__main__':
+    X, y = PCA_feature_construction(diff=False)
+    X = feature_reshape(X)
+    X = X[:-2]  # drop the last sample because we don't have y for it
+    print(X.shape)
 
-y = y.dropna()
-print(y.shape)
+    y = y.dropna()
+    print(y.shape)
