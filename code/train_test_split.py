@@ -55,7 +55,6 @@ def plot_train_test_y(y_train, y_test):
     plt.figure(figsize=(10, 8))
     plt.plot(y_train.index, y_train, label='train')
     plt.plot(y_test.index, y_test, label='test')
-    plt.xticks(y.index[::int(len(y) / 5)])
     plt.legend()
     plt.show()
 
