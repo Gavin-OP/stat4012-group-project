@@ -60,4 +60,4 @@ def plot_train_test_y(y_train, y_test):
     plt.show()
 
 
-X_train, X_test, y_train, y_test = train_test_split_4012(n_days=20, stride=1, model='LSTM', diff=False)
+# X_train, X_test, y_train, y_test = train_test_split_4012(n_days=20, stride=1, model='LSTM', diff=False)
