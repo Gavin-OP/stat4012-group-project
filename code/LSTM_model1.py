@@ -10,8 +10,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Conv1D, Flatten, BatchNormalization, Activation, MaxPooling1D
 from keras.optimizers import Adam
 from keras.metrics import accuracy, mean_squared_error, Precision, Recall
-from feature_construction import PCA_feature_construction
-from feature_reshape import feature_reshape
+from train_test_split import train_test_split_4012
 from evaluate import price_pred_graph
 
 # define model
@@ -36,9 +35,8 @@ class KerasMultiLSTM(object):
 
     def model(self):
         self.model = Sequential()
-
         # 不固定batch_size，预测时可以以1条记录进行分析
-        self.model.add(Attention(units=32))
+        # attention_mul = attention_3d_block(inputs)
         self.model.add(LSTM(units=self.cell_size, activation='relu', return_sequences=True,
                             input_shape=(self.n_steps, self.input_size)))
 
@@ -60,20 +58,12 @@ class KerasMultiLSTM(object):
 
 if __name__ == '__main__':
     random.seed(4012)
-
-    X, y = PCA_feature_construction(diff=False)
-    X = feature_reshape(X)[:-2]
-    y = y.dropna()
-    print(X.shape)
-    print(y.shape)
-    X_train,X_test = X[:int(len(X) * 0.8)],X[int(len(X) * 0.8):]
-    y_train,y_test = y[:int(len(y) * 0.8)],y[int(len(y) * 0.8):]
+    X_train, X_test, y_train, y_test = train_test_split_4012(model='LSTM', diff=False)
 
     # training data's length needs to be a multiple of batch size
     k = len(X_train) % BATCH_SIZE # k is the remainder
     X_train, y_train = X_train[k:], y_train[k:]
     print(f"Length of new training data set is: {len(X_train)}")
-
 
     model = KerasMultiLSTM(TIME_STEPS, INPUT_SIZE, CELL_SIZE, BATCH_SIZE)
     model.model()
