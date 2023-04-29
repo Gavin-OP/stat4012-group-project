@@ -19,7 +19,7 @@ def fit_model(seed=4012, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN'
     plt.show()
 
     # save model, name it combined cnn, diff, n_days, stride
-    filename = '../model/cnn_model' + str(cnn) + 'seed' + str(seed) + '_epochs' + str(epochs) +\
+    filename = '../model/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
         '_days' + str(n_days) + '_stride' + str(stride) + \
         '_diff' + str(diff) + '.h5'
     model.save(filename)
