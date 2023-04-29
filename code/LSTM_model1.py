@@ -1,6 +1,6 @@
 # Description: naive LSTM model
 
-from keras.layers import LSTM,TimeDistributed,Dense,Dropout
+from keras.layers import LSTM,TimeDistributed,Dense,Dropout,Attention
 from keras.models import load_model
 
 import pandas as pd
@@ -10,28 +10,27 @@ from keras.models import Sequential
 from keras.layers import Dense, Conv1D, Flatten, BatchNormalization, Activation, MaxPooling1D
 from keras.optimizers import Adam
 from keras.metrics import accuracy, mean_squared_error, Precision, Recall
-from train_test_split import *
-from normalization import *
-
+from feature_construction import PCA_feature_construction
+from feature_reshape import feature_reshape
+from evaluate import price_pred_graph
 
 # define model
-BATCH_START = 0
-TIME_STEPS = 15
-BATCH_SIZE = 30
-INPUT_SIZE = 25
-OUTPUT_SIZE = 4
-PRED_SIZE = 15 #预测输出1天序列数据
-CELL_SIZE = 128
+BATCH_START = 0    # bacth起始点
+TIME_STEPS = 5     # 时间跨度
+BATCH_SIZE = 1    # 每次喂进model的sample数
+INPUT_SIZE = 7     # feature数
+# PRED_SIZE = 15 #预测输出1天序列数据
+CELL_SIZE = 32    # LSTM 神经元数
 LR = 0.0001
-EPOSE = 1000
+EPOSE = 100
 
 # fit model
 class KerasMultiLSTM(object):
 
-    def __init__(self, n_steps, input_size, output_size, cell_size, batch_size):
-        self.n_steps = 5
+    def __init__(self, n_steps, input_size, cell_size, batch_size):
+        self.n_steps = n_steps
         self.input_size = input_size
-        self.output_size = output_size
+        # self.output_size = output_size
         self.cell_size = cell_size  # LSTM神经单元数
         self.batch_size = batch_size  # 输入batch_size大小
 
@@ -39,17 +38,18 @@ class KerasMultiLSTM(object):
         self.model = Sequential()
 
         # 不固定batch_size，预测时可以以1条记录进行分析
+        self.model.add(Attention(units=32))
         self.model.add(LSTM(units=self.cell_size, activation='relu', return_sequences=True,
-                            input_shape=(self.n_steps, self.input_size))
-                       )
+                            input_shape=(self.n_steps, self.input_size)))
+
         self.model.add(Dropout(0.2))
         self.model.add(LSTM(units=self.cell_size, activation='relu', return_sequences=True))
         self.model.add(Dropout(0.2))
-        self.model.add(LSTM(units=self.cell_size, activation='relu', return_sequences=True))
-        self.model.add(Dropout(0.2))
+        # self.model.add(LSTM(units=self.cell_size, activation='relu', return_sequences=True))
+        # self.model.add(Dropout(0.2))
 
         # 全连接，输出， add output layer
-        self.model.add(TimeDistributed(Dense(self.output_size)))
+        self.model.add(TimeDistributed(Dense(32)))
         self.model.compile(metrics=['accuracy'], loss='mean_squared_error', optimizer='adam')
         self.model.summary()
 
@@ -60,9 +60,32 @@ class KerasMultiLSTM(object):
 
 if __name__ == '__main__':
     random.seed(4012)
-    print(X_train)
+
+    X, y = PCA_feature_construction(diff=False)
+    X = feature_reshape(X)[:-2]
+    y = y.dropna()
+    print(X.shape)
+    print(y.shape)
+    X_train,X_test = X[:int(len(X) * 0.8)],X[int(len(X) * 0.8):]
+    y_train,y_test = y[:int(len(y) * 0.8)],y[int(len(y) * 0.8):]
+
+    # training data's length needs to be a multiple of batch size
+    k = len(X_train) % BATCH_SIZE # k is the remainder
+    X_train, y_train = X_train[k:], y_train[k:]
+    print(f"Length of new training data set is: {len(X_train)}")
 
 
+    model = KerasMultiLSTM(TIME_STEPS, INPUT_SIZE, CELL_SIZE, BATCH_SIZE)
+    model.model()
+    history = model.train(X_train, y_train, EPOSE,'lstm1.h5')
 
+    plt.plot(history['loss'], linewidth=2, label='Train')
+    plt.legend(loc='upper right')
+    plt.title('Model loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.show()
 
+    y_pred = model.predict(X_test)
+    y_pred.to_csv('y_pred_return_lstm.csv')
 

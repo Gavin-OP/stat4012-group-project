@@ -1,14 +1,15 @@
 # Description:
 # Reshape data into 3D matrix for CNN input
-# Dimension of X: (1353 - n_days, n_days, n_features)
-# Dimension of y: (1353 - n_days, )
+# Dimension of X: (1347, 5, 7)
+# Dimension of y: (1347, )
 
 from numpy import array
 from feature_construction import PCA_feature_construction
+# Define reshape function to reshape the data into matrix for CNN input.
+# split a 1322 * 21 matrix into (1322-n_days+1)/stride * n_days * 20 tensorflow matrix
 
 
-def input_reshape(n_days=5, stride=1, diff=False):
-    feature, label = PCA_feature_construction(diff)
+def feature_reshape(feature, n_days=5, stride=1):
     X = list()
     for i in range(0, len(feature), stride):
         # find the last day of each tensor
@@ -25,20 +26,13 @@ def input_reshape(n_days=5, stride=1, diff=False):
         # display first 5 samples in a pandas dataframe for better visualization
         # if i < 5:
         #     print('X=%s' % (seq_X))
+    return array(X)
 
-    
-    y = label.dropna()
-    # drop first n_days-1 samples because we don't have X for them
-    y = y[n_days-2:]
-    # make y with stride = stride
-    y = y[::stride].values
+if __name__ == '__main__':
+    X, y = PCA_feature_construction(diff=False)
+    X = feature_reshape(X)
+    X = X[:-2]  # drop the last sample because we don't have y for it
+    print(X.shape)
 
-    X = array(X)
-    y = array(y)
-    print('X.shape:', X.shape)
-    print('y.shape:', y.shape)
-    return X, y
-
-
-X, y = input_reshape(n_days=20, stride=1)
-
+    y = y.dropna()
+    print(y.shape)
