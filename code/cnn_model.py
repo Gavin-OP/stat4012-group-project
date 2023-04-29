@@ -1,15 +1,15 @@
 # Description: CNN 1D model1
 
 
-from keras.models import Sequential
-from keras.layers import Dense, Conv1D, Flatten, BatchNormalization, Activation, MaxPooling1D
-from keras.optimizers import Adam
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Conv1D, Flatten, BatchNormalization, Activation, MaxPooling1D
+from tensorflow.keras.optimizers import Adam
 
 
-def cnn_model1():
+def cnn_model1(n_days):
     model = Sequential()
     model.add(Conv1D(filters=32, kernel_size=2, padding='same',
-              activation='relu', input_shape=(5, 7)))
+              activation='relu', input_shape=(n_days, 7)))
     # model.add(MaxPooling1D(pool_size=2))
     model.add(Conv1D(filters=32, kernel_size=2,
               padding='same', activation='relu'))
