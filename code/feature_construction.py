@@ -27,8 +27,8 @@ def PCA_feature_construction(diff = False):
     data = normalize_data()
     golden_cross = data['golden_cross']
     death_cross = data['death_cross']
-    sixth_day_return = data['sixth_day_return']
-    drop_columns = ['golden_cross', 'death_cross', 'sixth_day_return']
+    label = data['return']
+    drop_columns = ['golden_cross', 'death_cross', 'return']
     data.drop(drop_columns, axis=1, inplace=True)
     X = pd.DataFrame(index=data.index)
 
@@ -41,7 +41,7 @@ def PCA_feature_construction(diff = False):
     X['death_cross'] = death_cross
 
     # use sixth_day_return as y
-    y = sixth_day_return
+    y = label
     return X, y
 
 # plot the new features only display 5 x-axis labels
@@ -70,7 +70,7 @@ def new_features_plot(X):
 # plot label only display 5 x-axis labels
 def label_plot(y):
     plt.figure(figsize=(10, 8))
-    plt.plot(y, label='sixth_day_return')
+    plt.plot(y, label='return')
     plt.xticks(y.index[::int(len(y) / 5)])
     plt.legend()
     plt.show()

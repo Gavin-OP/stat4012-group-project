@@ -34,7 +34,7 @@ library(factoextra)
 # input raw data
 dataset = read.csv('../data/data.csv')
 dataset = na.omit(dataset)        # handle NA values
-remove.columns = c('date', 'daily_trading_value', 'UBB', 'LBB', 'BollMA', 'MA_5', 'MA_25', 'MACD', 'sig_9', 'diff', 'golden_cross', 'death_cross', 'sixth_day_return')
+remove.columns = c('date', 'daily_trading_value', 'UBB', 'LBB', 'BollMA', 'MA_5', 'MA_25', 'MACD', 'sig_9', 'diff', 'golden_cross', 'death_cross', 'return')
 raw.data = dataset[ ,!(colnames(dataset) %in% remove.columns)]        # exclude date in dataset raw_data
 head(raw.data)
 

@@ -53,7 +53,7 @@ print(type(X))
 # calculate the sixth day's return
 # X['sixth_day_return'] = (
 #     (X['close'].shift(-5)-X['open'].shift(-5))/X['open'].shift(-5)).dropna(how='any')
-X.loc[:, 'sixth_day_return'] = (X['close'].shift(-5) - X['close'].shift(-6)) /  X['close'].shift(-6).dropna(how='any')
+X.loc[:, 'return'] = ((X['close'] - X['close'].shift(1)) /  X['close'].shift(1)).dropna(how='any')
 print('Cleaned data is saved in data.csv. It contains column named:\n', data.columns)
 print(X.head())
 
