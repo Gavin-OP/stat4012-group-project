@@ -13,6 +13,7 @@ raw_data = pd.read_excel('../data/raw_data_adjusted.xlsx',
                      index_col=0).dropna(how='any')
 raw_data.sort_values(by='date', ascending=True, inplace=True)
 
+# add golden cross and death cross
 def golden_death_cross_calculation(data):
     # calculate golden and death cross
     data['MA_5'] = data['close'].rolling(5).mean()
@@ -29,6 +30,7 @@ def golden_death_cross_calculation(data):
     print(data[['golden_cross', 'death_cross']].sum())
     return data
 
+# plot the golden and death cross with MA_5 and MA_25
 def golden_death_cross_plot(data):
     data = golden_death_cross_calculation(data)
     # plot the golden and death cross

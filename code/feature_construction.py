@@ -11,8 +11,8 @@ def import_PCA_componants(diff=False):
         '../data/normalized_data_diff_PCA_componants.csv', header=0, index_col=0)
     pca_normalized_data = pd.read_csv(
         '../data/normalized_data_PCA_componants.csv', header=0, index_col=0)
-    print('pca_normalized_data_diff:\n', pca_normalized_data_diff, '\n')
-    print('pca_normalized_data:\n', pca_normalized_data, '\n')
+    # print('pca_normalized_data_diff:\n', pca_normalized_data_diff, '\n')
+    # print('pca_normalized_data:\n', pca_normalized_data, '\n')
     pca_componants = pd.DataFrame()
     if diff == True:
         pca_componants = pca_normalized_data_diff
@@ -21,8 +21,8 @@ def import_PCA_componants(diff=False):
     return pca_componants
 
 
-# create new features using PCA
-def feature_construction(diff = False):
+# create new features using PCA, diff = True means using normalized_data_diff_PCA_componants.csv, diff = False means using normalized_data_PCA_componants.csv
+def PCA_feature_construction(diff = False):
     pca_componants = import_PCA_componants(diff)
     data = normalize_data()
     golden_cross = data['golden_cross']
@@ -45,8 +45,6 @@ def feature_construction(diff = False):
     return X, y
 
 # plot the new features only display 5 x-axis labels
-
-
 def new_features_plot(X):
     n = len(X.columns)
     print('n:', n)
@@ -70,8 +68,6 @@ def new_features_plot(X):
     plt.show()
 
 # plot label only display 5 x-axis labels
-
-
 def label_plot(y):
     plt.figure(figsize=(10, 8))
     plt.plot(y, label='sixth_day_return')
@@ -80,9 +76,9 @@ def label_plot(y):
     plt.show()
 
 
-
-X, y = feature_construction(diff=False)
-print('X:\n', X, '\n')
-print('y:\n', y, '\n')
-new_features_plot(X)
-label_plot(y)
+# usage of function defined above
+# X, y = PCA_feature_construction(diff=False)
+# print('X:\n', X, '\n')
+# print('y:\n', y, '\n')
+# new_features_plot(X)
+# label_plot(y)

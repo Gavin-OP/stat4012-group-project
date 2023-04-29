@@ -4,7 +4,7 @@
 # Dimension of y: (1347, )
 
 from numpy import array
-from feature_construction import feature_construction
+from feature_construction import PCA_feature_construction
 # Define reshape function to reshape the data into matrix for CNN input.
 # split a 1322 * 21 matrix into (1322-n_days+1)/stride * n_days * 20 tensorflow matrix
 
@@ -28,7 +28,7 @@ def feature_reshape(feature, n_days=5, stride=1):
         #     print('X=%s' % (seq_X))
     return array(X)
 
-X, y = feature_construction()
+X, y = PCA_feature_construction(diff=False)
 X = feature_reshape(X)
 X = X[:-2]  # drop the last sample because we don't have y for it
 print(X.shape)
