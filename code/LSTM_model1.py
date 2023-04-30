@@ -1,6 +1,7 @@
 # Description: naive LSTM model
 
-from keras.layers import LSTM,TimeDistributed,Dense,Dropout,Attention
+from keras.layers import LSTM,TimeDistributed,Dense,Dropout
+from attention import Attention
 from keras.models import load_model
 
 import pandas as pd
@@ -14,7 +15,7 @@ from train_test_split import train_test_split_4012
 from evaluate import price_pred_graph
 
 # define model
-BATCH_START = 0    # bacth起始点
+BATCH_START = 0    # bacth起始点a
 TIME_STEPS = 5     # 时间跨度
 BATCH_SIZE = 1    # 每次喂进model的sample数
 INPUT_SIZE = 7     # feature数
@@ -47,7 +48,8 @@ class KerasMultiLSTM(object):
         # self.model.add(Dropout(0.2))
 
         # 全连接，输出， add output layer
-        self.model.add(TimeDistributed(Dense(32)))
+        self.model.add(TimeDistributed(Dense(16)))
+        self.model.add(TimeDistributed(Dense(1)))
         self.model.compile(metrics=['accuracy'], loss='mean_squared_error', optimizer='adam')
         self.model.summary()
 

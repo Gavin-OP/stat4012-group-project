@@ -1,0 +1,2 @@
+TIME_STEP = 5
+FEATURE_NUM = 7

@@ -14,10 +14,10 @@ from feature_construction import PCA_feature_construction
 def train_test_split_4012(X=0, y=0, n_days=5, stride=1, model='CNN', diff=False):
     if model == 'CNN':
         X, y = input_reshape(n_days, stride)
+
     elif model == 'LSTM':
-        X, y = PCA_feature_construction(diff = False)
-        X = array(X)
-        y = array(y)
+        X, y = input_reshape(n_days, stride)
+
     
     # split data into train and test set by 80% and 20% by time
     X_train = X[:int(len(X) * 0.8)]
@@ -58,5 +58,5 @@ def plot_train_test_y(y_train, y_test):
     plt.legend()
     plt.show()
 
-
-# X_train, X_test, y_train, y_test = train_test_split_4012(n_days=20, stride=1, model='LSTM', diff=False)
+if __name__ == '__main__':
+    X_train, X_test, y_train, y_test = train_test_split_4012(n_days=20, stride=1, model='LSTM', diff=False)

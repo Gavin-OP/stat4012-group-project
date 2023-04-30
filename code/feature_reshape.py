@@ -5,6 +5,7 @@
 
 from numpy import array
 from feature_construction import PCA_feature_construction
+import numpy as np
 
 
 def input_reshape(n_days=5, stride=1, diff=False):
@@ -39,11 +40,11 @@ def input_reshape(n_days=5, stride=1, diff=False):
     return X, y
 
 
+# below used to test this script
 if __name__ == '__main__':
-    X, y = PCA_feature_construction(diff=False)
-    X = input_reshape(X)
-    X = X[:-2]  # drop the last sample because we don't have y for it
+    # X, y = PCA_feature_construction(diff=False)
+    X,y = input_reshape()
     print(X.shape)
 
-    y = y.dropna()
+    y = y[~np.isnan(y)]
     print(y.shape)

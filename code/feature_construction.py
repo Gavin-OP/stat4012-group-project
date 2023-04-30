@@ -75,10 +75,10 @@ def label_plot(y):
     plt.legend()
     plt.show()
 
-
-# usage of function defined above
-# X, y = PCA_feature_construction(diff=False)
-# print('X:\n', X, '\n')
-# print('y:\n', y, '\n')
-# new_features_plot(X)
-# label_plot(y)
+if __name__ ==  '__main__':
+    # usage of function defined above
+    X, y = PCA_feature_construction(diff=False)
+    print('X:\n', X, '\n')
+    print('y:\n', y, '\n')
+    new_features_plot(X)
+    label_plot(y)
