@@ -2,19 +2,29 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from keras.models import load_model
 from train_test_split import train_test_split_4012
+import numpy as np
 
 
-def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100):
-    modelname = '../model/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
-        '_days' + str(n_days) + '_stride' + str(stride) + \
-        '_diff' + str(diff) + '.h5'
+def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100,model_num=0):
+    if model_type == 'CNN':
+        surname = 'cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
+            '_days' + str(n_days) + '_stride' + str(stride) + \
+            '_diff' + str(diff)
+    elif model_type == 'LSTM':
+        surname = f'lstm_model{model_num}_seed{seed}'
+
+    modelname = '../model/' + surname + '.h5'
     model = load_model(modelname)
     X_train, X_test, y_train, y_test = train_test_split_4012(
         n_days=n_days, stride=stride, model=model_type, diff=diff)
 
     # make a prediction
-    y_pred = model.predict(X_test)
+    y_pred = model.predict(X_test)  # y_pred is the predicted return
     print(model.summary())
+
+    # save result
+    np.savetxt(f'../prediction/{surname}.csv',y_pred)
+
     return_pred_plot(y_test, y_pred)
     price_pred_graph(y_pred, seed=seed, cnn=cnn, n_days=n_days,
                      stride=stride, model_type=model_type, diff=diff, epochs=epochs)
@@ -62,14 +72,14 @@ def price_pred_graph(return_pred, seed=4012, cnn=1, n_days=5, stride=1, model_ty
 
 
 if __name__ == "__main__":
-    y_test, y_pred = predict_price(seed = 4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    y_test, y_pred = predict_price(seed = 808, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    y_test, y_pred = predict_price(
-        seed=123, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    y_test, y_pred = predict_price(seed=1155, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    y_test, y_pred = predict_price(seed=1702, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    y_test, y_pred = predict_price(seed=721, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    y_test, y_pred = predict_price(seed=2001, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    y_test, y_pred = predict_price(seed=144, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    y_test, y_pred = predict_price(seed=1024, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    y_test, y_pred = predict_price(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed = 4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed = 808, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed=123, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed=1155, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed=1702, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed=721, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed=2001, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed=144, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed=1024, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    y_test, y_pred = predict_price(seed=4005, epochs=100, cnn=1, n_days=5, stride=1, model_type='LSTM', diff=False,model_num=2)
