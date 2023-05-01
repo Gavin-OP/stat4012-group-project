@@ -28,7 +28,10 @@ def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=F
     print(model.summary())
 
     # save result
-    np.savetxt(f'../prediction/{surname}.csv',y_pred)
+    if model_type == 'LSTM':
+        np.savetxt(f'../prediction/{surname}.csv',y_pred)
+    elif model_type == 'CNN':
+        np.savetxt(f'../prediction/cnn_model{cnn}_seed{seed}_epochs{epochs}_days{n_days}_stride{stride}_diff{diff}_good.csv',y_pred)
 
     return_pred_plot(y_test, y_pred)
     price_pred_graph(y_pred, seed=seed, cnn=cnn, n_days=n_days,
@@ -87,4 +90,6 @@ if __name__ == "__main__":
     # y_test, y_pred = predict_price(seed=2001, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
     # y_test, y_pred = predict_price(seed=144, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
     # y_test, y_pred = predict_price(seed=1024, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
-    y_test, y_pred = predict_price(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
+    # y_test, y_pred = predict_price(seed=998, epochs=100, cnn=2, n_days=10, stride=1, model_type='CNN', diff=False, good='good')
+    y_test, y_pred = predict_price(seed=998, epochs=100, cnn=2, n_days=5, stride=1, model_type='CNN', diff=False, good='good')

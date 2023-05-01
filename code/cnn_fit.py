@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 from cnn_model import cnn_model1, cnn_model2, cnn_model3
 from train_test_split import train_test_split_4012
 import tensorflow as tf
-from cnn_evaluate import predict_price
+from model_evaluate import predict_price
 
 # fit model
 def fit_model(seed=4012, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False):
