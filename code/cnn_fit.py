@@ -1,7 +1,7 @@
 import random
 import numpy as np
 from matplotlib import pyplot as plt
-from cnn_model import cnn_model1, cnn_model2, cnn_model3
+from cnn_model import cnn_model1, cnn_model2, cnn_model3, cnn_model4
 from train_test_split import train_test_split_4012
 import tensorflow as tf
 from model_evaluate import predict_price
@@ -14,6 +14,8 @@ def fit_model(seed=4012, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN'
         model = cnn_model2(n_days)
     elif cnn == 3:
         model = cnn_model3(n_days)
+    elif cnn == 4:
+        model = cnn_model4(n_days)
 
     X_train, X_test, y_train, y_test = train_test_split_4012(
         n_days=n_days, stride=stride, model=model_type, diff=diff)
@@ -25,7 +27,7 @@ def fit_model(seed=4012, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN'
     plt.figure(figsize=(10, 8))
     plt.plot(history.history['loss'], label='train')
     plt.legend()
-    plt.show()
+    # plt.show()
 
     # save model, name it combined cnn, diff, n_days, stride
     filename = '../model/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
@@ -59,6 +61,9 @@ if __name__ == "__main__":
     # fit_model(seed=1988, epochs=100, cnn=2, n_days=10, stride=1, model_type='CNN', diff=False)
     # fit_model(seed=88, epochs=100, cnn=2, n_days=10, stride=1, model_type='CNN', diff=False)
     # fit_model(seed=4012, epochs=100, cnn=2, n_days=10, stride=1, model_type='CNN', diff=False)
-    fit_model(seed=998, epochs=100, cnn=2, n_days=5, stride=1, model_type='CNN', diff=True)
+    for i in range(100):
+        fit_model(seed=i, epochs=100, cnn=2, n_days=5, stride=1, model_type='CNN', diff=True)
+        fit_model(seed=i, epochs=100, cnn=3, n_days=5, stride=1, model_type='CNN', diff=True)
+        fit_model(seed=i, epochs=100, cnn=4, n_days=5, stride=1, model_type='CNN', diff=False)
     print('fit model done')
     

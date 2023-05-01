@@ -8,7 +8,7 @@ import numpy as np
 def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100,model_num=0, good = 'NO'):
     if model_type == 'CNN':
         if good == 'NO':
-            modelname = 'cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
+            modelname = '../model/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
                     '_days' + str(n_days) + '_stride' + str(stride) + \
                     '_diff' + str(diff) + '.h5'
         elif good == 'good':
@@ -31,9 +31,10 @@ def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=F
     if model_type == 'LSTM':
         np.savetxt(f'../prediction/{surname}.csv',y_pred)
     elif model_type == 'CNN':
-        np.savetxt(f'../prediction/cnn_model{cnn}_seed{seed}_epochs{epochs}_days{n_days}_stride{stride}_diff{diff}_good.csv',y_pred)
+        if good == 'good':
+            np.savetxt(f'../prediction/cnn_model{cnn}_seed{seed}_epochs{epochs}_days{n_days}_stride{stride}_diff{diff}_good.csv',y_pred)
 
-    return_pred_plot(y_test, y_pred)
+    # return_pred_plot(y_test, y_pred)
     price_pred_graph(y_pred, seed=seed, cnn=cnn, n_days=n_days,
                      stride=stride, model_type=model_type, diff=diff, epochs=epochs)
     return y_test, y_pred
@@ -76,7 +77,7 @@ def price_pred_graph(return_pred, seed=4012, cnn=1, n_days=5, stride=1, model_ty
         '_days' + str(n_days) + '_stride' + str(stride) + \
         '_diff' + str(diff) + '.png'
     plt.savefig(filename, dpi=1200, bbox_inches='tight')
-    plt.show()
+    # plt.show()
 
 
 if __name__ == "__main__":
@@ -93,3 +94,4 @@ if __name__ == "__main__":
     # y_test, y_pred = predict_price(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
     # y_test, y_pred = predict_price(seed=998, epochs=100, cnn=2, n_days=10, stride=1, model_type='CNN', diff=False, good='good')
     y_test, y_pred = predict_price(seed=998, epochs=100, cnn=2, n_days=5, stride=1, model_type='CNN', diff=False, good='good')
+    y_test, y_pred = predict_price(seed=61, epochs=100, cnn=4, n_days=5, stride=1, model_type='CNN', diff=True, good='good')
