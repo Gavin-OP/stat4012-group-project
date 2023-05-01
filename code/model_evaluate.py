@@ -1,11 +1,12 @@
-import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from keras.models import load_model
 from train_test_split import train_test_split_4012
-import numpy as np
+from sklearn.metrics import roc_curve, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
 
-def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100,model_num=0, good = 'NO'):
+def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100, model_num=0, good = 'NO'):
     if model_type == 'CNN':
         if good == 'NO':
             modelname = '../model/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
@@ -78,6 +79,31 @@ def price_pred_graph(return_pred, seed=4012, cnn=1, n_days=5, stride=1, model_ty
         '_diff' + str(diff) + '.png'
     plt.savefig(filename, dpi=1200, bbox_inches='tight')
     # plt.show()
+
+def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100, model_num=0, good = 'NO'):
+    y_test, y_pred = predict_price(seed=seed, cnn=cnn, n_days=n_days, stride=stride, model_type=model_type, diff=diff, epochs=epochs, good=good)
+    y_pred_prob = 1 / (1 + np.exp(-y_pred))
+
+    y_pred_class = np.where(y_pred_prob > 0.5, 1, 0)
+    y_test_class = np.where(y_test > 0, 1, 0)
+
+    print('Accuracy: ', accuracy_score(y_test_class, y_pred_class))
+    print('Precision: ', precision_score(y_test_class, y_pred_class))
+    print('Recall: ', recall_score(y_test_class, y_pred_class))
+    print('F1: ', f1_score(y_test_class, y_pred_class))
+    print('Confusion Matirx: ', confusion_matrix(y_test_class, y_pred_class))
+
+    # plot roc curve
+    fpr, tpr, thresholds = roc_curve(y_test_class, y_pred_prob)
+    plt.figure(figsize=(10, 8))
+    plt.plot(fpr, tpr)
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.show()
+
+
+
 
 
 if __name__ == "__main__":
