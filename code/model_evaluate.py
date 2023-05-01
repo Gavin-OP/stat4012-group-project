@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from keras.models import load_model
 from train_test_split import train_test_split_4012
 from sklearn.metrics import roc_curve, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+import os
 
 
 def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100, model_num=0, good = 'NO'):
@@ -35,7 +36,7 @@ def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=F
         if good == 'good':
             np.savetxt(f'../prediction/cnn_model{cnn}_seed{seed}_epochs{epochs}_days{n_days}_stride{stride}_diff{diff}_good.csv',y_pred)
 
-    # return_pred_plot(y_test, y_pred)
+    return_pred_plot(y_test, y_pred, seed=seed, cnn=cnn, n_days=n_days, stride=stride, model_type=model_type, diff=diff, epochs=epochs)
     price_pred_graph(y_pred, seed=seed, cnn=cnn, n_days=n_days,
                      stride=stride, model_type=model_type, diff=diff, epochs=epochs)
     return y_test, y_pred
@@ -43,7 +44,7 @@ def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=F
 # plot prediction only display 5 x-axis label
 
 
-def return_pred_plot(y_test, y_pred):
+def return_pred_plot(y_test, y_pred, seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100):
     y_test = pd.DataFrame(y_test)
     y_pred = pd.DataFrame(y_pred)
     y_test.index = range(len(y_test))
@@ -53,7 +54,11 @@ def return_pred_plot(y_test, y_pred):
     plt.plot(y_test.index, y_pred, label='y_pred')
     plt.xticks(y_test.index[::int(len(y_test) / 5)])
     plt.legend()
-    plt.show()
+    filename = '../graph/better_model_cnn_ROC/return_cnn_model' + str(cnn) + '_return_pred_seed' + str(seed) + '_epochs' + str(epochs) +\
+        '_days' + str(n_days) + '_stride' + str(stride) + \
+        '_diff' + str(diff) + '.png'
+    plt.savefig(filename, dpi=1200, bbox_inches='tight')
+    # plt.show()
 
 
 def price_pred_graph(return_pred, seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100):
@@ -74,11 +79,12 @@ def price_pred_graph(return_pred, seed=4012, cnn=1, n_days=5, stride=1, model_ty
     plt.plot(y_pred, label='pred')
     plt.xticks(y_true.index[::int(len(y_true) / 5)])
     plt.legend()
-    filename = '../graph/cnn_model' + str(cnn) + '_price_pred_seed' + str(seed) + '_epochs' + str(epochs) +\
+    filename = '../graph/better_model_cnn_ROC/price_cnn_model' + str(cnn) + '_price_pred_seed' + str(seed) + '_epochs' + str(epochs) +\
         '_days' + str(n_days) + '_stride' + str(stride) + \
         '_diff' + str(diff) + '.png'
     plt.savefig(filename, dpi=1200, bbox_inches='tight')
     # plt.show()
+
 
 def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100, model_num=0, good = 'NO'):
     y_test, y_pred = predict_price(seed=seed, cnn=cnn, n_days=n_days, stride=stride, model_type=model_type, diff=diff, epochs=epochs, good=good)
@@ -100,7 +106,60 @@ def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', d
     plt.plot([0, 1], [0, 1], 'k--')
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
+    filename = '../graph/better_model_cnn_ROC/ROC_cnn_model' + str(cnn) + '_ROC_seed' + str(seed) + '_epochs' + str(epochs) +\
+        '_days' + str(n_days) + '_stride' + str(stride) + \
+        '_diff' + str(diff) + '.png'
+    plt.savefig(filename, dpi=1200, bbox_inches='tight')
+    # plt.show()
+    return y_test_class, y_pred_prob
+
+
+def plot_ROC_and_pred():
+    # plot all models from model_list in one plot
+    model_list = os.listdir('../model/good_model_cnn/better_model_cnn_ROC')
+    model_list = [i for i in model_list if i[-3:] == '.h5']
+    # extract seed, epochs, cnn, n_days, stride, model_type, diff from model name
+    model_info = []
+    for i in model_list:
+        model_info.append(i.split('_'))
+    model_info = pd.DataFrame(model_info)
+    cnn = model_info[1].str.extract('(\d+)')
+    n_days = model_info[4].str.extract('(\d+)')
+    stride = model_info[5].str.extract('(\d+)')
+    # diff will not include first 4 characters 'diff'
+    diff = model_info[6].str[4:]
+    epochs = model_info[3].str.extract('(\d+)')
+    seed = model_info[2].str.extract('(\d+)')
+    model_type = 'CNN'
+    # plot all ROC curve in one plot
+    plt.figure(figsize=(10, 8))
+    for i in range(len(model_list)):
+        y_test_class, y_pred_prob = CNN_classification(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
+            stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
+        fpr, tpr, thresholds = roc_curve(y_test_class, y_pred_prob)
+        plt.plot(fpr, tpr, label=model_list[i])
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.legend()
     plt.show()
+
+    # plot all predicted return in one plot
+    plt.figure(figsize=(10, 8))
+    for i in range(len(model_list)):
+        y_test, y_pred = predict_price(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
+            stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
+        if i == 0:
+            plt.plot(y_test, label='true')
+        plt.plot(y_pred, label=model_list[i])
+    # plt.xticks(y_test.index[::int(len(y_test) / 5)])
+    plt.legend()
+    plt.show()
+
+
+
+
+
 
 
 
@@ -119,5 +178,29 @@ if __name__ == "__main__":
     # y_test, y_pred = predict_price(seed=1024, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
     # y_test, y_pred = predict_price(seed=777, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
     # y_test, y_pred = predict_price(seed=998, epochs=100, cnn=2, n_days=10, stride=1, model_type='CNN', diff=False, good='good')
-    y_test, y_pred = predict_price(seed=998, epochs=100, cnn=2, n_days=5, stride=1, model_type='CNN', diff=False, good='good')
-    y_test, y_pred = predict_price(seed=61, epochs=100, cnn=4, n_days=5, stride=1, model_type='CNN', diff=True, good='good')
+    # y_test, y_pred = predict_price(seed=998, epochs=100, cnn=2, n_days=5, stride=1, model_type='CNN', diff=False, good='good')
+    # y_test, y_pred = predict_price(seed=61, epochs=100, cnn=4, n_days=5, stride=1, model_type='CNN', diff=True, good='good')
+    # plot_ROC_and_pred()
+    model_list = os.listdir('../model/good_model_cnn/better_model_cnn_ROC')
+    model_list = [i for i in model_list if i[-3:] == '.h5']
+    # extract seed, epochs, cnn, n_days, stride, model_type, diff from model name
+    model_info = []
+    for i in model_list:
+        model_info.append(i.split('_'))
+    model_info = pd.DataFrame(model_info)
+    cnn = model_info[1].str.extract('(\d+)')
+    n_days = model_info[4].str.extract('(\d+)')
+    stride = model_info[5].str.extract('(\d+)')
+    # diff will not include first 4 characters 'diff'
+    diff = model_info[6].str[4:]
+    epochs = model_info[3].str.extract('(\d+)')
+    seed = model_info[2].str.extract('(\d+)')
+    model_type = 'CNN'
+
+    for i in range(len(model_list)):
+        # print model info
+        print('model name: ', model_list[i])
+        CNN_classification(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
+            stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
+    
+
