@@ -12,20 +12,23 @@ def visualization_cnn(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', di
             modelname = '../model/new_PCA_model/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
                 '_days' + str(n_days) + '_stride' + str(stride) + \
                 '_diff' + str(diff) + '_good.h5'
+        filename = '../graph/report/cnn_model' + str(cnn) + '.png'
     elif model_type == 'LSTM':
         surname = f'lstm_model{model_num}_seed{seed}'
         modelname = '../model/' + surname + '.h5'
+        filename = f'../graph/report/lstm_model{model_num}.png'
 
     model = load_model(modelname)
-    filename = '../graph/report/cnn_model' + str(cnn) + '.png'
+    # filename = '../graph/report/cnn_model' + str(cnn) + '.png'
     plot_model(model, to_file=filename, show_shapes=True)
 
 
 if __name__ == '__main__':
-    visualization_cnn(seed = 0, cnn=1, n_days=5, stride=1, model_type='CNN', diff=True)
-    visualization_cnn(seed = 0, cnn=2, n_days=5, stride=1, model_type='CNN', diff=True)
-    visualization_cnn(seed = 0, cnn=3, n_days=5, stride=1, model_type='CNN', diff=True)
-    visualization_cnn(seed = 0, cnn=4, n_days=5, stride=1, model_type='CNN', diff=True)
+    # visualization_cnn(seed = 0, cnn=1, n_days=5, stride=1, model_type='CNN', diff=True)
+    # visualization_cnn(seed = 0, cnn=2, n_days=5, stride=1, model_type='CNN', diff=True)
+    # visualization_cnn(seed = 0, cnn=3, n_days=5, stride=1, model_type='CNN', diff=True)
+    # visualization_cnn(seed = 0, cnn=4, n_days=5, stride=1, model_type='CNN', diff=True)
+    visualization_cnn(seed=619, cnn=4, n_days=5, stride=1, model_type='LSTM',model_num=7, diff=True)
 
     # import pydot
     # import graphviz
