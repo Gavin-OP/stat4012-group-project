@@ -6,6 +6,8 @@ from train_test_split import train_test_split_4012
 from sklearn.metrics import roc_curve, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 import os
 
+# load saved h5 files, for regression analysis: draw prediction curve
+# for classification analysis, create confusion matrix and ROC curve
 
 
 def return_pred_plot(y_test, y_pred, model_num):
