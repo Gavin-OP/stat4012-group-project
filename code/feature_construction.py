@@ -53,10 +53,15 @@ def new_features_plot(X):
     plt.plot(X['Comp.1'], label='Comp.1')
     plt.plot(X['Comp.2'], label='Comp.2')
     plt.plot(X['Comp.3'], label='Comp.3')
+    # plot golden cross and death cross along x axis
     plt.scatter(X[X['golden_cross'] == 1].index,
-                X[X['golden_cross'] == 1]['Comp.2'], label='golden_cross', marker='^', color='green')
+                X[X['golden_cross'] == 1]['Comp.1'] * 0, label='golden_cross', marker='^', color='green')
     plt.scatter(X[X['death_cross'] == 1].index,
-                X[X['death_cross'] == 1]['Comp.2'], label='golden_cross', marker='v', color='red')
+                X[X['death_cross'] == 1]['Comp.1'] * 0, label='golden_cross', marker='v', color='red')
+    # plt.scatter(X[X['golden_cross'] == 1].index,
+    #             X[X['golden_cross'] == 1]['Comp.2'], label='golden_cross', marker='^', color='green')
+    # plt.scatter(X[X['death_cross'] == 1].index,
+    #             X[X['death_cross'] == 1]['Comp.2'], label='golden_cross', marker='v', color='red')
     plt.xticks(X.index[::int(len(X) / 5)])
     plt.legend()
     plt.show()
@@ -72,7 +77,9 @@ def label_plot(y):
 if __name__ ==  '__main__':
     # usage of function defined above
     X, y = PCA_feature_construction(diff=False)
+    X1, y1 = PCA_feature_construction(diff=True)
     print('X:\n', X, '\n')
     print('y:\n', y, '\n')
     new_features_plot(X)
+    new_features_plot(X1)
     label_plot(y)

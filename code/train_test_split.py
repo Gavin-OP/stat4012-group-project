@@ -55,8 +55,12 @@ def plot_train_test_y(y_train, y_test):
     plt.figure(figsize=(10, 8))
     plt.plot(y_train.index, y_train, label='train')
     plt.plot(y_test.index, y_test, label='test')
+    close = pd.read_csv('../data/data.csv', index_col=0)['close']
+    y_true = close.iloc[-276:-6]
+    plt.xticks(y_true.index[::int(len(y_true) / 5)])
     plt.legend()
     plt.show()
 
 if __name__ == '__main__':
     X_train, X_test, y_train, y_test = train_test_split_4012(n_days=20, stride=1, model='LSTM', diff=False)
+    plot_train_test_y(y_train, y_test)
