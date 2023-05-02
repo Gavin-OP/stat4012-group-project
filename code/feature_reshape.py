@@ -43,7 +43,7 @@ def input_reshape(n_days=5, stride=1, diff=False):
 # below used to test this script
 if __name__ == '__main__':
     # X, y = PCA_feature_construction(diff=False)
-    X,y = input_reshape()
+    X,y = input_reshape(diff=True)
     print(X.shape)
 
     y = y[~np.isnan(y)]

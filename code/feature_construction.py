@@ -49,16 +49,10 @@ def new_features_plot(X):
     n = len(X.columns)
     print('n:', n)
     plt.figure(figsize=(10, 8))
-    if n == 4:
-        plt.plot(X['Comp.1'], label='Comp.1')
-        plt.plot(X['Comp.2'], label='Comp.2')
 
-    elif n == 7:
-        plt.plot(X['Comp.1'], label='Comp.1')
-        plt.plot(X['Comp.2'], label='Comp.2')
-        plt.plot(X['Comp.3'], label='Comp.3')
-        plt.plot(X['Comp.4'], label='Comp.4')
-        plt.plot(X['Comp.5'], label='Comp.5')
+    plt.plot(X['Comp.1'], label='Comp.1')
+    plt.plot(X['Comp.2'], label='Comp.2')
+    plt.plot(X['Comp.3'], label='Comp.3')
     plt.scatter(X[X['golden_cross'] == 1].index,
                 X[X['golden_cross'] == 1]['Comp.2'], label='golden_cross', marker='^', color='green')
     plt.scatter(X[X['death_cross'] == 1].index,
