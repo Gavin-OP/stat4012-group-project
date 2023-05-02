@@ -50,13 +50,18 @@ def plot_train_test_y(y_train, y_test):
     # plot the train and test label in one plot only display 5 x-axis label
     y_train = pd.DataFrame(y_train)
     y_test = pd.DataFrame(y_test)
-    y_train.index = range(len(y_train))
-    y_test.index = range(len(y_train), len(y_train) + len(y_test))
+    close = pd.read_csv('../data/data.csv', index_col=0)['close']
+    y_true = close.iloc[:-19]
+    y_train.index = close.iloc[:int(len(y_true) * 0.8)].index
+    y_test.index = close.iloc[int(len(y_true) * 0.8) + 19:].index
+    # y_test.index = range(len(y_train), len(y_train) + len(y_test))
+    print(y_train.index)
+    print(y_test.index)
+    print(y_true.index)
     plt.figure(figsize=(10, 8))
     plt.plot(y_train.index, y_train, label='train')
     plt.plot(y_test.index, y_test, label='test')
-    close = pd.read_csv('../data/data.csv', index_col=0)['close']
-    y_true = close.iloc[-276:-6]
+    # plt.xticks(y_true.index)
     plt.xticks(y_true.index[::int(len(y_true) / 5)])
     plt.legend()
     plt.show()
