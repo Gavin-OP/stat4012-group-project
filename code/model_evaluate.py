@@ -104,11 +104,11 @@ def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', d
     y_pred_class = np.where(y_pred_prob > 0.5, 1, 0)
 
     # save y_pred_class to csv, directory is '../prediction'
-    surname = 'cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
-        '_days' + str(n_days) + '_stride' + str(stride) + \
-        '_diff' + str(diff) + '_classification_good'
+    # surname = 'cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
+    #     '_days' + str(n_days) + '_stride' + str(stride) + \
+    #     '_diff' + str(diff) + '_classification_good'
     
-    np.savetxt(f'../prediction/{surname}.csv', y_pred)
+    # np.savetxt(f'../prediction/{surname}.csv', y_pred)
     y_test_class = np.where(y_test > 0, 1, 0)
 
     print('Accuracy: ', accuracy_score(y_test_class, y_pred_class))
