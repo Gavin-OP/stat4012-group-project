@@ -30,12 +30,12 @@ def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=F
     print(model.summary())
 
     # save result
-    if model_type == 'LSTM':
-        np.savetxt(f'../prediction/{surname}.csv', y_pred)
-    elif model_type == 'CNN':
-        if good == 'good':
-            np.savetxt(
-                f'../prediction/cnn_model{cnn}_seed{seed}_epochs{epochs}_days{n_days}_stride{stride}_diff{diff}_good.csv', y_pred)
+    # if model_type == 'LSTM':
+    #     np.savetxt(f'../prediction/{surname}.csv', y_pred)
+    # elif model_type == 'CNN':
+    #     if good == 'good':
+    #         np.savetxt(
+    #             f'../prediction/cnn_model{cnn}_seed{seed}_epochs{epochs}_days{n_days}_stride{stride}_diff{diff}_good.csv', y_pred)
 
     # return_pred_plot(y_test, y_pred, seed=seed, cnn=cnn, n_days=n_days, stride=stride, model_type=model_type, diff=diff, epochs=epochs)
     # price_pred_graph(y_pred, seed=seed, cnn=cnn, n_days=n_days,
@@ -78,10 +78,10 @@ def price_pred_graph(return_pred, seed=4012, cnn=1, n_days=5, stride=1, model_ty
     # plt.figure(figsize=(16, 9))
     # plt.plot(y_true, label='close')
 
-    label = 'cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
-        '_days' + str(n_days) + '_stride' + str(stride) + \
-        '_diff' + str(diff)
-    plt.plot(y_pred, label=label)
+    # label = 'cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
+    #     '_days' + str(n_days) + '_stride' + str(stride) + \
+    #     '_diff' + str(diff)
+    # plt.plot(y_pred, label=label)
 
     # plt.plot(y_pred, label='prediction')
     # plt.xticks(y_true.index[::int(len(y_true) / 5)])
@@ -102,6 +102,13 @@ def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', d
 
     y_pred_prob = 1 / (1 + np.exp(-y_pred))
     y_pred_class = np.where(y_pred_prob > 0.5, 1, 0)
+
+    # save y_pred_class to csv, directory is '../prediction'
+    surname = 'cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
+        '_days' + str(n_days) + '_stride' + str(stride) + \
+        '_diff' + str(diff) + '_classification_good'
+    
+    np.savetxt(f'../prediction/{surname}.csv', y_pred)
     y_test_class = np.where(y_test > 0, 1, 0)
 
     print('Accuracy: ', accuracy_score(y_test_class, y_pred_class))
@@ -111,11 +118,11 @@ def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', d
     print('Confusion Matirx: ', confusion_matrix(y_test_class, y_pred_class))
 
     # save accuracy, precision, recall, f1, confusion matrix in csv
-    df = pd.DataFrame([accuracy_score(y_test_class, y_pred_class), precision_score(y_test_class, y_pred_class),
-                       recall_score(y_test_class, y_pred_class), f1_score(y_test_class, y_pred_class)])
-    df.to_csv('../data/new_PCA_result/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +
-              '_days' + str(n_days) + '_stride' + str(stride) +
-              '_diff' + str(diff) + '.csv')
+    # df = pd.DataFrame([accuracy_score(y_test_class, y_pred_class), precision_score(y_test_class, y_pred_class),
+    #                    recall_score(y_test_class, y_pred_class), f1_score(y_test_class, y_pred_class)])
+    # df.to_csv('../data/new_PCA_result/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +
+    #           '_days' + str(n_days) + '_stride' + str(stride) +
+    #           '_diff' + str(diff) + '.csv')
     
 
     # plot roc curve
@@ -169,22 +176,23 @@ def plot_ROC_and_pred():
     # plt.show()
 
     # # plot all predicted return in one plot
-    # plt.figure(figsize=(16, 9))
-    # for i in range(len(model_list)):
-    #     y_test, y_pred = predict_price(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
-    #         stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
-    #     # make y_test to pd.Series and give index as close price index
-    #     close = pd.read_csv('../data/data.csv', index_col=0)['close']
-    #     y_true = close.iloc[-276:-6]
-    #     y_test = pd.Series(y_test, index=y_true.index)
-    #     if i == 0:
-    #         plt.plot(y_test, label='true')
-    #     plt.plot(y_pred, label=model_list[i])
-    # plt.xticks(y_test.index[::int(len(y_test) / 5)])
+    plt.figure(figsize=(16, 9))
+    for i in range(len(model_list)):
+        y_test, y_pred = predict_price(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
+            stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
+        # make y_test to pd.Series and give index as close price index
+        close = pd.read_csv('../data/data.csv', index_col=0)['close']
+        y_true = close.iloc[-276:-6]
+        y_test = pd.Series(y_test, index=y_true.index)
+        if i == 0:
+            plt.plot(y_test, label='true')
+        plt.plot(y_pred, label=model_list[i])
+    plt.xticks(y_test.index[::int(len(y_test) / 5)])
+    print(y_test.index)
     # plt.legend()
     # save = '../graph/report/return.png'
     # plt.savefig(save, dpi=1200, bbox_inches='tight')
-    # plt.show()
+    plt.show()
 
     # plot all predicted price in one plot
     # plt.figure(figsize=(16, 9))
