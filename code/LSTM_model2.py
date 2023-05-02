@@ -14,7 +14,7 @@ from keras.layers import Dense, Conv1D, Flatten, BatchNormalization, Activation,
 from keras.optimizers import Adam
 from keras.metrics import accuracy, mean_squared_error, Precision, Recall
 from train_test_split import train_test_split_4012
-from evaluate import price_pred_graph
+# from evaluate import price_pred_graph
 import tensorflow as tf
 
 seed = 619

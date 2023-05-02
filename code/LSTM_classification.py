@@ -89,8 +89,9 @@ def evaluate_classification(seed,epochs,model_num):
     y_pred = model.predict(X_test)
 
     y_pred_prob = 1 / (1 + np.exp(-y_pred))
+    np.savetxt(f'../prediction/lstm_model{model_num}_seed{seed}_clssification2.csv', y_pred_prob)
     y_pred_class = np.where(y_pred_prob > 0.5, 1, 0)
-    np.savetxt(f'../prediction/lstm_model{model_num}_seed{seed}_clssification.csv',y_pred_class)
+
     y_test_class = np.where(y_test > 0, 1, 0)
 
     print('Accuracy: ', accuracy_score(y_test_class, y_pred_class))
