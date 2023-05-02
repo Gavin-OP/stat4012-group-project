@@ -17,9 +17,9 @@ from train_test_split import train_test_split_4012
 from evaluate import price_pred_graph
 import tensorflow as tf
 
-seed = 790
+seed = 619
 epochs = 100
-model_num = 6
+model_num = 7
 np.random.seed(seed)
 random.seed(seed)
 tf.random.set_seed(seed)
@@ -31,7 +31,6 @@ X_train, X_test, y_train, y_test = train_test_split_4012(model='LSTM', diff=Fals
 model = Sequential()
 Attention(name='attention_weight')
 model.add(LSTM(32, input_shape=(TIME_STEP,FEATURE_NUM)))  # These two variables are defined in configurations.py
-
 model.add(Dense(64))
 model.add(Dense(32))
 model.add(Dense(1))
