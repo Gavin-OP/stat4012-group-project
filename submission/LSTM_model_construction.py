@@ -12,6 +12,8 @@ from keras.metrics import accuracy, mean_squared_error, Precision, Recall
 from train_test_split import train_test_split_4012
 import tensorflow as tf
 
+# this script is used to generate LSTM models and save into h5 file
+
 TIME_STEP = 5
 FEATURE_NUM = 5
 
