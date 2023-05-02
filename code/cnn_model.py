@@ -8,7 +8,7 @@ from tensorflow.keras.optimizers import Adam
 
 def cnn_model1(n_days):
     model = Sequential()
-    model.add(Conv1D(filters=32, kernel_size=2, padding='same', activation='relu', input_shape=(n_days, 7)))
+    model.add(Conv1D(filters=32, kernel_size=2, padding='same', activation='relu', input_shape=(n_days, 5)))
     model.add(Conv1D(filters=32, kernel_size=2, padding='same', activation='relu'))
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
@@ -19,7 +19,7 @@ def cnn_model1(n_days):
 
 def cnn_model2(n_days):
     model = Sequential()
-    model.add(Conv1D(filters=32, kernel_size=2, padding='same', activation='relu', input_shape=(n_days, 7)))
+    model.add(Conv1D(filters=32, kernel_size=2, padding='same', activation='relu', input_shape=(n_days, 5)))
     model.add(Conv1D(filters=32, kernel_size=2, padding='same', activation='relu'))
     model.add(Conv1D(filters=32, kernel_size=2, padding='same', activation='relu'))
     model.add(Flatten())
@@ -32,7 +32,7 @@ def cnn_model2(n_days):
 
 def cnn_model3(n_days):
     model = Sequential()
-    model.add(Conv1D(filters=64, kernel_size=2, padding='same', activation='relu', input_shape=(n_days, 7)))
+    model.add(Conv1D(filters=64, kernel_size=2, padding='same', activation='relu', input_shape=(n_days, 5)))
     model.add(Conv1D(filters=64, kernel_size=2, padding='same', activation='relu'))
     model.add(Flatten())
     model.add(Dense(64, activation='relu'))
@@ -43,7 +43,7 @@ def cnn_model3(n_days):
 
 def cnn_model4(n_days):
     model = Sequential()
-    model.add(Conv1D(filters=64, kernel_size=2, padding='same', activation='relu', input_shape=(n_days, 7)))
+    model.add(Conv1D(filters=64, kernel_size=2, padding='same', activation='relu', input_shape=(n_days, 5)))
     model.add(Conv1D(filters=64, kernel_size=2, padding='same', activation='relu'))
     model.add(Conv1D(filters=64, kernel_size=2, padding='same', activation='relu'))
     model.add(Conv1D(filters=64, kernel_size=2, padding='same', activation='relu'))

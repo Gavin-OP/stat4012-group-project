@@ -46,16 +46,20 @@ def golden_death_cross_plot(data):
     plt.legend()
     plt.show()
 
-data = golden_death_cross_calculation(raw_data)
-X = data[['open', 'high', 'low', 'close', 'daily_trading_volume',
-          'RSI_14', 'BollW', 'precent_B', 'BIAS', 'ROC_1', 'golden_cross', 'death_cross']]
-print(type(X))
-# calculate the sixth day's return
-# X['sixth_day_return'] = (
-#     (X['close'].shift(-5)-X['open'].shift(-5))/X['open'].shift(-5)).dropna(how='any')
-X.loc[:, 'return'] = ((X['close'] - X['close'].shift(1)) /  X['close'].shift(1)).dropna(how='any')
-print('Cleaned data is saved in data.csv. It contains column named:\n', data.columns)
-print(X.head())
 
-# store X as csv file
-X.to_csv('../data/data.csv')
+
+if __name__ == "__main__":
+    golden_death_cross_plot(raw_data)
+    data = golden_death_cross_calculation(raw_data)
+    X = data[['open', 'high', 'low', 'close', 'daily_trading_volume',
+          'RSI_14', 'BollW', 'precent_B', 'BIAS', 'ROC_1', 'golden_cross', 'death_cross']]
+    print(type(X))
+    # calculate the sixth day's return
+    # X['sixth_day_return'] = (
+    #     (X['close'].shift(-5)-X['open'].shift(-5))/X['open'].shift(-5)).dropna(how='any')
+    X.loc[:, 'return'] = ((X['close'] - X['close'].shift(1)) /  X['close'].shift(1)).dropna(how='any')
+    print('Cleaned data is saved in data.csv. It contains column named:\n', data.columns)
+    print(X.head())
+
+    # store X as csv file
+    X.to_csv('../data/data.csv')

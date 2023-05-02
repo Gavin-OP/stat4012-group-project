@@ -4,6 +4,7 @@
 
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
 
 
 def normalize_data():
@@ -23,4 +24,14 @@ def normalize_data():
         scaler.data_max_, index=column_index, columns=['Max'])
     scaler_min_max_data['Min'] = scaler.data_min_
     scaler_min_max_data.to_csv('../data/scaler.csv')
+
+    # save normalized data into csv file
+    data.to_csv('../data/normalized_data.csv')
     return data
+
+if __name__ == "__main__":
+    data = normalize_data()
+    # plot the box plot of each feature
+    data[['open', 'high', 'low', 'close', 'daily_trading_volume',
+            'RSI_14', 'BollW', 'precent_B', 'BIAS', 'ROC_1']].boxplot()
+    plt.show()
