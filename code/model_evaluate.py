@@ -10,11 +10,11 @@ import os
 def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100, model_num=0, good='NO'):
     if model_type == 'CNN':
         if good == 'NO':
-            modelname = '../model/new_PCA_model/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
+            modelname = '../model/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
                 '_days' + str(n_days) + '_stride' + str(stride) + \
                 '_diff' + str(diff) + '.h5'
         elif good == 'good':
-            modelname = '../model/new_PCA_model/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
+            modelname = '../model/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
                 '_days' + str(n_days) + '_stride' + str(stride) + \
                 '_diff' + str(diff) + '_good.h5'
     elif model_type == 'LSTM':
@@ -24,7 +24,6 @@ def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=F
     model = load_model(modelname)
     X_train, X_test, y_train, y_test = train_test_split_4012(
         n_days=n_days, stride=stride, model=model_type, diff=diff)
-    print(X_test.shape)
 
     # make a prediction
     y_pred = model.predict(X_test)  # y_pred is the predicted return
@@ -39,8 +38,8 @@ def predict_price(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=F
                 f'../prediction/cnn_model{cnn}_seed{seed}_epochs{epochs}_days{n_days}_stride{stride}_diff{diff}_good.csv', y_pred)
 
     # return_pred_plot(y_test, y_pred, seed=seed, cnn=cnn, n_days=n_days, stride=stride, model_type=model_type, diff=diff, epochs=epochs)
-    price_pred_graph(y_pred, seed=seed, cnn=cnn, n_days=n_days,
-                     stride=stride, model_type=model_type, diff=diff, epochs=epochs)
+    # price_pred_graph(y_pred, seed=seed, cnn=cnn, n_days=n_days,
+    #                  stride=stride, model_type=model_type, diff=diff, epochs=epochs)
     return y_test, y_pred
 
 # plot prediction only display 5 x-axis label
@@ -51,16 +50,16 @@ def return_pred_plot(y_test, y_pred, seed=4012, cnn=1, n_days=5, stride=1, model
     y_pred = pd.DataFrame(y_pred)
     y_test.index = range(len(y_test))
     y_pred.index = range(len(y_test))
-    plt.figure(figsize=(16, 9))
+    plt.figure(figsize=(10, 8))
     plt.plot(y_test.index, y_test, label='y_test')
     plt.plot(y_test.index, y_pred, label='y_pred')
     plt.xticks(y_test.index[::int(len(y_test) / 5)])
     plt.legend()
-    filename = '../graph/new_PCA_plot/return_cnn_model' + str(cnn) + '_return_pred_seed' + str(seed) + '_epochs' + str(epochs) +\
-        '_days' + str(n_days) + '_stride' + str(stride) + \
-        '_diff' + str(diff) + '.png'
-    plt.savefig(filename, dpi=1200, bbox_inches='tight')
-    # plt.show()
+    # filename = '../graph/better_model_cnn_ROC/return_cnn_model' + str(cnn) + '_return_pred_seed' + str(seed) + '_epochs' + str(epochs) +\
+    #     '_days' + str(n_days) + '_stride' + str(stride) + \
+    #     '_diff' + str(diff) + '.png'
+    # plt.savefig(filename, dpi=1200, bbox_inches='tight')
+    plt.show()
 
 
 def price_pred_graph(return_pred, seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100, good='NO'):
@@ -76,26 +75,32 @@ def price_pred_graph(return_pred, seed=4012, cnn=1, n_days=5, stride=1, model_ty
         y_pred.append(y_pred[i-1]*(1+float(return_pred.iloc[i-1].values)))
         i += 1
 
-    plt.figure(figsize=(16, 9))
+    plt.figure(figsize=(10, 8))
     plt.plot(y_true, label='close')
-    label = 'cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
-        '_days' + str(n_days) + '_stride' + str(stride) + \
-        '_diff' + str(diff)
-    plt.plot(y_pred, label=label)
+
+    # label = 'cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
+    #     '_days' + str(n_days) + '_stride' + str(stride) + \
+    #     '_diff' + str(diff)
+    # plt.plot(y_pred, label=label)
+
+    plt.plot(y_pred, label='prediction')
     plt.xticks(y_true.index[::int(len(y_true) / 5)])
     plt.legend()
-    filename = '../graph/new_PCA_plot/price_cnn_model' + str(cnn) + '_price_pred_seed' + str(seed) + '_epochs' + str(epochs) +\
-        '_days' + str(n_days) + '_stride' + str(stride) + \
-        '_diff' + str(diff) + '.png'
-    plt.savefig(filename, dpi=1200, bbox_inches='tight')
-    # plt.show()
+    # filename = '../graph/better_model_cnn_ROC/price_cnn_model' + str(cnn) + '_price_pred_seed' + str(seed) + '_epochs' + str(epochs) +\
+    #     '_days' + str(n_days) + '_stride' + str(stride) + \
+    #     '_diff' + str(diff) + '.png'
+    # plt.savefig(filename, dpi=1200, bbox_inches='tight')
+    plt.show()
 
 
 def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100, model_num=0, good='NO'):
-    y_test, y_pred = predict_price(seed=seed, cnn=cnn, n_days=n_days, stride=stride,
+    if model_type == 'CNN':
+        y_test, y_pred = predict_price(seed=seed, cnn=cnn, n_days=n_days, stride=stride,
                                    model_type=model_type, diff=diff, epochs=epochs, good=good)
-    y_pred_prob = 1 / (1 + np.exp(-y_pred))
+    elif model_type == 'LSTM':
+        y_test, y_pred = predict_prcie(seed=seed,cnn=1, n_days=5, stride=stride, model_type=model_type, diff=False, epochs=epochs, model_num=model_num, good='NO')
 
+    y_pred_prob = 1 / (1 + np.exp(-y_pred))
     y_pred_class = np.where(y_pred_prob > 0.5, 1, 0)
     y_test_class = np.where(y_test > 0, 1, 0)
 
@@ -106,16 +111,16 @@ def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', d
     print('Confusion Matirx: ', confusion_matrix(y_test_class, y_pred_class))
 
     # plot roc curve
-    fpr, tpr, thresholds = roc_curve(y_test_class, y_pred_prob)
-    plt.figure(figsize=(16, 9))
-    plt.plot(fpr, tpr)
-    plt.plot([0, 1], [0, 1], 'k--')
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    filename = '../graph/new_PCA_plot/ROC_cnn_model' + str(cnn) + '_ROC_seed' + str(seed) + '_epochs' + str(epochs) +\
-        '_days' + str(n_days) + '_stride' + str(stride) + \
-        '_diff' + str(diff) + '.png'
-    plt.savefig(filename, dpi=1200, bbox_inches='tight')
+    # fpr, tpr, thresholds = roc_curve(y_test_class, y_pred_prob)
+    # plt.figure(figsize=(10, 8))
+    # plt.plot(fpr, tpr)
+    # plt.plot([0, 1], [0, 1], 'k--')
+    # plt.xlabel('False Positive Rate')
+    # plt.ylabel('True Positive Rate')
+    # filename = '../graph/better_model_cnn_ROC/ROC_cnn_model' + str(cnn) + '_ROC_seed' + str(seed) + '_epochs' + str(epochs) +\
+    #     '_days' + str(n_days) + '_stride' + str(stride) + \
+    #     '_diff' + str(diff) + '.png'
+    # plt.savefig(filename, dpi=1200, bbox_inches='tight')
     # plt.show()
     return y_test_class, y_pred_prob
 
@@ -138,7 +143,7 @@ def plot_ROC_and_pred():
     seed = model_info[2].str.extract('(\d+)')
     model_type = 'CNN'
     # plot all ROC curve in one plot
-    plt.figure(figsize=(16, 9))
+    plt.figure(figsize=(10, 8))
     for i in range(len(model_list)):
         # print model info
         print('model: ', model_list[i])
@@ -150,10 +155,10 @@ def plot_ROC_and_pred():
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.legend()
-    # plt.show()
+    plt.show()
 
     # # plot all predicted return in one plot
-    # plt.figure(figsize=(16, 9))
+    # plt.figure(figsize=(10, 8))
     # for i in range(len(model_list)):
     #     y_test, y_pred = predict_price(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
     #         stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
@@ -169,7 +174,7 @@ def plot_ROC_and_pred():
     # plt.show()
 
     # plot all predicted price in one plot
-    # plt.figure(figsize=(16, 9))
+    # plt.figure(figsize=(10, 8))
     # for i in range(len(model_list)):
     #     y_test, y_pred = predict_price(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
     #         stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
@@ -188,7 +193,7 @@ def plot_ROC_and_pred():
 
 
 if __name__ == "__main__":
-    y_test, y_pred = predict_price(seed = 4012, cnn=2, n_days=5, stride=1, model_type='CNN', diff=True)
+    # y_test, y_pred = predict_price(seed = 4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
     # y_test, y_pred = predict_price(seed = 808, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
     # y_test, y_pred = predict_price(
     #     seed=123, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
@@ -224,3 +229,13 @@ if __name__ == "__main__":
     #     print('model name: ', model_list[i])
     #     CNN_classification(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
     #         stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
+
+
+
+    # LSTM test
+    # y_test, y_pred = predict_price(seed=619,epochs=100,model_type='LSTM',model_num=7)
+    # return_pred_plot(y_test, y_pred)
+    # price_pred_graph(y_pred)
+
+    # CNN_classification(seed=619,epochs=100,model_type='LSTM',model_num=7)
+    CNN_classification(seed=619, cnn=1, n_days=5, stride=1, model_type='LSTM', diff=False, epochs=100, model_num=7, good='NO')

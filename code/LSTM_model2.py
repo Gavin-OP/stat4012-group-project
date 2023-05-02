@@ -15,19 +15,23 @@ from keras.optimizers import Adam
 from keras.metrics import accuracy, mean_squared_error, Precision, Recall
 from train_test_split import train_test_split_4012
 from evaluate import price_pred_graph
+import tensorflow as tf
 
-seed = 801
-epochs = 3
-model_num = 3
+seed = 619
+epochs = 100
+model_num = 7
 np.random.seed(seed)
+random.seed(seed)
+tf.random.set_seed(seed)
 
 # load data
 X_train, X_test, y_train, y_test = train_test_split_4012(model='LSTM', diff=False)
 
-# build model: LSTM - Attention - 32 - 1
+# build model: LSTM - Attention
 model = Sequential()
-model.add(LSTM(32, input_shape=(TIME_STEP,FEATURE_NUM)))  # These two variables are defined in configurations.py
 Attention(name='attention_weight')
+model.add(LSTM(32, input_shape=(TIME_STEP,FEATURE_NUM)))  # These two variables are defined in configurations.py
+model.add(Dense(64))
 model.add(Dense(32))
 model.add(Dense(1))
 model.compile(metrics=['accuracy'],loss='mean_squared_error', optimizer='adam')
@@ -44,6 +48,7 @@ plt.legend(loc='upper right')
 plt.title('Model loss')
 plt.ylabel('Loss')
 plt.xlabel('Epoch')
+plt.savefig(f'../graph/loss_lstm_model{model_num}_seed{seed}.png', dpi=1200, bbox_inches='tight')
 plt.show()
 
 # make predictions
@@ -55,30 +60,3 @@ np.savetxt(f"../data/lstm_model{model_num}_seed{seed}.csv", y_pred, delimiter=',
 loss,accuracy = model.evaluate(X_test,y_test)
 print(loss)
 print(accuracy)
-
-# draw prediction graph
-# return_pred = pd.read_csv('../data/lstm_model1_seed4012.csv')
-# print(return_pred)
-#
-# y_true = pd.read_csv('../data/data.csv',index_col=0)['close']
-# y_true = y_true.iloc[-276:-6]
-# print(y_true)
-#
-#
-# price_pred = []
-# price_pred.append(y_true.iloc[0])
-#
-# i = 1
-# while i<len(y_pred)-1:
-#     price_pred.append(price_pred[i-1]*(1+float(y_pred.iloc[i-1].values)))
-#     i+=1
-#
-# print(price_pred)
-# plt.plot(y_true,label='close')
-# plt.plot(price_pred,label='pred')
-# plt.xticks(y_true.index[::int(len(y_true) / 5)])
-# plt.show()
-
-
-
-
