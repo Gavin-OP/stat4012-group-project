@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # fit_model(seed=1988, epochs=100, cnn=2, n_days=10, stride=1, model_type='CNN', diff=False)
     # fit_model(seed=88, epochs=100, cnn=2, n_days=10, stride=1, model_type='CNN', diff=False)
     # fit_model(seed=4012, epochs=100, cnn=2, n_days=5, stride=1, model_type='CNN', diff=True)
-    for i in range(11, 15):
+    for i in range(14, 15):
         fit_model(seed=i, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=True)
         fit_model(seed=i, epochs=100, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False)
         fit_model(seed=i, epochs=100, cnn=2, n_days=5, stride=1, model_type='CNN', diff=True)
