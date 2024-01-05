@@ -96,9 +96,10 @@ def price_pred_graph(return_pred, seed=4012, cnn=1, n_days=5, stride=1, model_ty
 def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', diff=False, epochs=100, model_num=0, good='NO'):
     if model_type == 'CNN':
         y_test, y_pred = predict_price(seed=seed, cnn=cnn, n_days=n_days, stride=stride,
-                                   model_type=model_type, diff=diff, epochs=epochs, good=good)
+                                       model_type=model_type, diff=diff, epochs=epochs, good=good)
     elif model_type == 'LSTM':
-        y_test, y_pred = predict_price(seed=seed,cnn=1, n_days=5, stride=stride, model_type=model_type, diff=False, epochs=epochs, model_num=model_num, good='NO')
+        y_test, y_pred = predict_price(seed=seed, cnn=1, n_days=5, stride=stride,
+                                       model_type=model_type, diff=False, epochs=epochs, model_num=model_num, good='NO')
 
     y_pred_prob = 1 / (1 + np.exp(-y_pred))
     y_pred_class = np.where(y_pred_prob > 0.5, 1, 0)
@@ -107,7 +108,7 @@ def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', d
     # surname = 'cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +\
     #     '_days' + str(n_days) + '_stride' + str(stride) + \
     #     '_diff' + str(diff) + '_classification_good'
-    
+
     # np.savetxt(f'../prediction/{surname}.csv', y_pred)
     y_test_class = np.where(y_test > 0, 1, 0)
 
@@ -123,7 +124,6 @@ def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', d
     # df.to_csv('../data/new_PCA_result/cnn_model' + str(cnn) + '_seed' + str(seed) + '_epochs' + str(epochs) +
     #           '_days' + str(n_days) + '_stride' + str(stride) +
     #           '_diff' + str(diff) + '.csv')
-    
 
     # plot roc curve
     # fpr, tpr, thresholds = roc_curve(y_test_class, y_pred_prob)
@@ -142,7 +142,9 @@ def CNN_classification(seed=4012, cnn=1, n_days=5, stride=1, model_type='CNN', d
 
 def plot_ROC_and_pred():
     # plot all models from model_list in one plot
-    model_list = os.listdir('../model/new_PCA_model/good_new_PCA_model/better')
+    # model_list = os.listdir('../model/new_PCA_model/good_new_PCA_model/better')
+    model_list = os.listdir(
+        "C:/software/Github_Repo/stat4012-group-project/model/new_PCA_model/good_new_PCA_model/better")
     model_list = [i for i in model_list if i[-3:] == '.h5']
     # extract seed, epochs, cnn, n_days, stride, model_type, diff from model name
     model_info = []
@@ -195,24 +197,24 @@ def plot_ROC_and_pred():
     plt.show()
 
     # plot all predicted price in one plot
-    # plt.figure(figsize=(16, 9))
-    # for i in range(len(model_list)):
-    #     y_test, y_pred = predict_price(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
-    #         stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
-    #     if i == 0:
-    #         close = pd.read_csv('../data/data.csv', index_col=0)['close']
-    #         y_true = close.iloc[-276:-6]
-    #         plt.plot(y_true, label='true')
+    plt.figure(figsize=(16, 9))
+    for i in range(len(model_list)):
+        y_test, y_pred = predict_price(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
+            stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
+        if i == 0:
+            close = pd.read_csv('../data/data.csv', index_col=0)['close']
+            y_true = close.iloc[-276:-6]
+            plt.plot(y_true, label='true')
 
-    #     price_pred_graph(y_pred, seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
-    #         stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
-    # plt.xticks(y_true.index[::int(len(y_test) / 10)])
-    # # rotate xticks
-    # plt.xticks(rotation=45)
-    # plt.legend()
-    # save = '../graph/report/price.png'
-    # plt.savefig(save, dpi=1200, bbox_inches='tight')
-    # plt.show()
+        price_pred_graph(y_pred, seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
+            stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
+    plt.xticks(y_true.index[::int(len(y_test) / 10)])
+    # rotate xticks
+    plt.xticks(rotation=45)
+    plt.legend()
+    save = '../graph/report/price.png'
+    plt.savefig(save, dpi=1200, bbox_inches='tight')
+    plt.show()
 
 
 if __name__ == "__main__":
@@ -230,30 +232,30 @@ if __name__ == "__main__":
     # y_test, y_pred = predict_price(seed=998, epochs=100, cnn=2, n_days=10, stride=1, model_type='CNN', diff=False, good='good')
     # y_test, y_pred = predict_price(seed=998, epochs=100, cnn=2, n_days=5, stride=1, model_type='CNN', diff=False, good='good')
     # y_test, y_pred = predict_price(seed=61, epochs=100, cnn=4, n_days=5, stride=1, model_type='CNN', diff=True, good='good')
-    # plot_ROC_and_pred()
-    model_list = os.listdir('../model/new_PCA_model/good_new_PCA_model/better')
-    model_list = [i for i in model_list if i[-3:] == '.h5']
-    # extract seed, epochs, cnn, n_days, stride, model_type, diff from model name
-    model_info = []
-    for i in model_list:
-        model_info.append(i.split('_'))
-    model_info = pd.DataFrame(model_info)
-    cnn = model_info[1].str.extract('(\d+)')
-    n_days = model_info[4].str.extract('(\d+)')
-    stride = model_info[5].str.extract('(\d+)')
-    # diff will not include first 4 characters 'diff'
-    diff = model_info[6].str[4:]
-    epochs = model_info[3].str.extract('(\d+)')
-    seed = model_info[2].str.extract('(\d+)')
-    model_type = 'CNN'
+    plot_ROC_and_pred()
+    # model_list = os.listdir('../model/new_PCA_model/good_new_PCA_model/better')
+    # model_list = os.listdir(
+    #     "C:/software/Github_Repo/stat4012-group-project/model/new_PCA_model/good_new_PCA_model/better")
+    # model_list = [i for i in model_list if i[-3:] == '.h5']
+    # # extract seed, epochs, cnn, n_days, stride, model_type, diff from model name
+    # model_info = []
+    # for i in model_list:
+    #     model_info.append(i.split('_'))
+    # model_info = pd.DataFrame(model_info)
+    # cnn = model_info[1].str.extract('(\d+)')
+    # n_days = model_info[4].str.extract('(\d+)')
+    # stride = model_info[5].str.extract('(\d+)')
+    # # diff will not include first 4 characters 'diff'
+    # diff = model_info[6].str[4:]
+    # epochs = model_info[3].str.extract('(\d+)')
+    # seed = model_info[2].str.extract('(\d+)')
+    # model_type = 'CNN'
 
-    for i in range(len(model_list)):
-        # print model info
-        print('model name: ', model_list[i])
-        CNN_classification(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
-            stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
-
-
+    # for i in range(len(model_list)):
+    #     # print model info
+    #     print('model name: ', model_list[i])
+    #     CNN_classification(seed=int(seed.iloc[i]), cnn=int(cnn.iloc[i]), n_days=int(n_days.iloc[i]), stride=int(
+    #         stride.iloc[i]), model_type=model_type, diff=diff.iloc[i], epochs=int(epochs.iloc[i]), good='good')
 
     # LSTM test
     # y_test, y_pred = predict_price(seed=619,epochs=100,model_type='LSTM',model_num=7)
